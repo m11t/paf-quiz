@@ -1,12 +1,17 @@
-package m11.mib.paf;
+package m11.mib.paf.quiz.user;
 
 import java.awt.Image;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import m11.mib.paf.quiz.question.Question;
+import m11.mib.paf.quiz.result.Result;
 
 /**
  * MT \ 09.01.2017 \ User
@@ -24,6 +29,12 @@ public class User {
     private byte[] salt;
     private Image portrait;
     private Boolean loggedIn;
+    
+    @OneToMany(mappedBy = "resultOfUser")
+    private List<Result> results;
+    
+    @OneToMany(mappedBy = "questioner")
+    private List<Question> questions;
     
     /**
      * Creates a hash out of the given password String.
@@ -113,8 +124,5 @@ public class User {
     public void logOut() {
 	this.loggedIn = false;
     }
-
-    
-    
     
 }
