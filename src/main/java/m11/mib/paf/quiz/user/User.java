@@ -1,6 +1,5 @@
 package m11.mib.paf.quiz.user;
 
-import java.awt.Image;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
 import m11.mib.paf.quiz.question.Question;
@@ -27,8 +27,10 @@ public class User {
     private String id;
     private String password;
     private byte[] salt;
-    private Image portrait;
     private Boolean loggedIn;
+
+    @Lob
+    private byte[] portrait;
     
     @OneToMany(mappedBy = "resultOfUser")
     private List<Result> results;
@@ -87,7 +89,7 @@ public class User {
     /**
      * @return The portrait of the user
      */
-    public Image getPortrait() {
+    public byte[] getPortrait() {
 	return portrait;
     }
 
@@ -96,7 +98,7 @@ public class User {
      * 
      * @param portrait The image to set as portrait
      */
-    public void setPortrait(Image portrait) {
+    public void setPortrait(byte[] portrait) {
 	this.portrait = portrait;
     }
 

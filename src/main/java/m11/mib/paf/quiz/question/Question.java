@@ -1,6 +1,5 @@
 package m11.mib.paf.quiz.question;
 
-import java.awt.Image;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -33,7 +33,9 @@ public class Question {
     private Long id;
     private String label;
     private String text;
-    private Image image;
+    
+    @Lob
+    private byte[] image;
     
     @ManyToOne
     @JoinColumn(name = "questioner")
@@ -70,7 +72,7 @@ public class Question {
      * @param text  the text containing the question
      * @param image the image to support the question
      */
-    public Question(String label, String text, Image image) {
+    public Question(String label, String text, byte[] image) {
 	this.setLabel(label);
 	this.setText(text);
 	this.setImage(image);
@@ -107,14 +109,14 @@ public class Question {
     /**
      * @return the image of the question
      */
-    public Image getImage() {
+    public byte[] getImage() {
 	return image;
     }
 
     /**
      * @param image the image to support the question
      */
-    public void setImage(Image image) {
+    public void setImage(byte[] image) {
 	this.image = image;
     }
     
