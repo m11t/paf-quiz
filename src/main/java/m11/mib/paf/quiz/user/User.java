@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import m11.mib.paf.quiz.question.Question;
 import m11.mib.paf.quiz.result.Result;
 
 /**
- * MT \ 09.01.2017 \ User
+ * Benutzer der Quiz-Applikation
  * 
  *
  * @author M11
@@ -28,7 +31,7 @@ public class User {
     private String password;
     private byte[] salt;
     private Boolean loggedIn;
-
+    
     @Lob
     private byte[] portrait;
     
@@ -37,6 +40,10 @@ public class User {
     
     @OneToMany(mappedBy = "questioner")
     private List<Question> questions;
+    
+    @Transient
+    @JsonProperty("id")
+    private String jsonId;
     
     /**
      * Creates a hash out of the given password String.
@@ -84,6 +91,7 @@ public class User {
 	this.salt = id.getBytes();
 	randomizer.nextBytes(this.salt);
 	this.password = this.encryptPassword(password);
+	this.loggedIn = false;
     }
     
     /**
@@ -100,6 +108,13 @@ public class User {
      */
     public void setPortrait(byte[] portrait) {
 	this.portrait = portrait;
+    }
+
+    /**
+     * @return the jsonId
+     */
+    public String getJsonId() {
+	return id;
     }
 
     /**
