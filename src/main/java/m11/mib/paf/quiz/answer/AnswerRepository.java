@@ -1,10 +1,6 @@
 package m11.mib.paf.quiz.answer;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
-
-import m11.mib.paf.quiz.question.Question;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * MT \ 12.01.2017 \ AnswerRepository
@@ -13,7 +9,6 @@ import m11.mib.paf.quiz.question.Question;
  * @author M11
  * @version 1.0
  */
-public interface AnswerRepository extends CrudRepository<Answer, Long> {
+public interface AnswerRepository extends PagingAndSortingRepository<Answer, Long> {
 
-    //List<Answer> findByQuestion(Question questionOfAnswer);
 }

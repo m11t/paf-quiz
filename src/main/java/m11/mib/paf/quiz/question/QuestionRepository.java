@@ -1,6 +1,6 @@
 package m11.mib.paf.quiz.question;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * MT \ 12.01.2017 \ QuestionRepository
@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author M11
  * @version 1.0
  */
-public interface QuestionRepository extends CrudRepository<Question, Long> {
+public interface QuestionRepository extends PagingAndSortingRepository<Question, Long> {
 
 }

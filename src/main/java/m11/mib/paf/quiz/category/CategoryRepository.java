@@ -1,6 +1,6 @@
 package m11.mib.paf.quiz.category;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * MT \ 12.01.2017 \ CategoryRepository
@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author M11
  * @version 1.0
  */
-public interface CategoryRepository extends CrudRepository<Category, String> {
+public interface CategoryRepository extends PagingAndSortingRepository<Category, String> {
 
 }

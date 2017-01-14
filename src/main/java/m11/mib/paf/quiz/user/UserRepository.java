@@ -1,6 +1,6 @@
 package m11.mib.paf.quiz.user;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * MT \ 12.01.2017 \ UserRepository
@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author M11
  * @version 1.0
  */
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends PagingAndSortingRepository<User, String> {
 
 }

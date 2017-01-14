@@ -1,6 +1,6 @@
 package m11.mib.paf.quiz.result;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * MT \ 12.01.2017 \ ResultRepository
@@ -9,6 +9,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author M11
  * @version 1.0
  */
-public interface ResultRepository extends CrudRepository<Result, Long> {
+public interface ResultRepository extends PagingAndSortingRepository<Result, Long> {
 
 }
