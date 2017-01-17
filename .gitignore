@@ -12,3 +12,11 @@
 hs_err_pid*
 /target/
 /bin/
+/.settings/
+/.apt_generated/
+/node/
+/node_modules/
+/.classpath
+/.project
+/.springBeans
+/.factorypath
