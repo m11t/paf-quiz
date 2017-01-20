@@ -17,9 +17,9 @@ var appName = "paf-quiz",
     },
     source: {
         app: "src/webapp/app/",
-        css: "src/webapp/app/**/*.css",
-        html: "src/webapp/app/**/*.html",
-        main: "src/webapp/main.ts"
+        css: "src/webapp/**/*.css",
+        html: "src/webapp/**/*.html",
+        main: "src/webapp/app/main.ts"
     },
     distribution: {
         app: "src/main/resources/static/",
@@ -39,7 +39,7 @@ gulp.task("default", [ "build" ], function() {
 /*
  * Fuehrt die Tasks build:app und ggfs. weitere synchron nacheinander aus.
  */
-gulp.task("build", [ "build:app", "build:html", "build:css", "build:res" ], function() {
+gulp.task("build", [ "build:app", "build:html" ], function() {
     // hier sollten build:app, build:html, build:css, build:res und (weitere) nacheinander gelaufen sein.
 });
 
@@ -70,6 +70,15 @@ gulp.task("build:app", function() {
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(paths.distribution.js));
+});
+
+/*
+ * Erstellen der CSS-Dateien und der darin benoetigten Dateien
+*/
+gulp.task("build:html", function() {
+  console.log("===== Generating Markup for apps...");
+    return gulp.src(paths.source.html)
+    .pipe(gulp.dest(paths.distribution.app));
 });
 
 /*
