@@ -5,29 +5,37 @@ var gulp       = require("gulp"),  // Instruct Node.js to load gulp
     tsify      = require("tsify"),
     uglify     = require("gulp-uglify"),
     sourcemaps = require("gulp-sourcemaps"),
-    buffer     = require("vinyl-buffer");
+    buffer     = require("vinyl-buffer"),
+    del        = require("del");
 
 var appName = "paf-quiz",
+    dependencies = [
+        "node_modules/core-js/client/shim.min.js",
+        "node_modules/zone.js/dist/zone.js",
+        "node_modules/clarity-ui/clarity-ui.min.css",
+        "node_modules/clarity-icons/clarity-icons.min.js",
+        "node_modules/clarity-icons/clarity-icons.min.css",
+        "node_modules/@webcomponents/custom-elements/custom-elements.min.js"
+    ],
     paths = {
-    wildcards: {
-        ts: "**/*.ts",
-        js: "**/*.js",
-        css: "**/*.css",
-        html: "**/*.html"
-    },
-    source: {
-        app: "src/webapp/app/",
-        css: "src/webapp/**/*.css",
-        html: "src/webapp/**/*.html",
-        main: "src/webapp/app/main.ts"
-    },
-    distribution: {
-        app: "src/main/resources/static/",
-        js: "src/main/resources/static/js/",
-        css: "src/main/resources/static/css/",
-        html: "src/main/resources/static/html/"
-    }
-}
+        wildcards: {
+            ts: "**/*.ts",
+            js: "**/*.js",
+            css: "**/*.css",
+            html: "**/*.html"
+        },
+        source: {
+            app: "src/webapp/app/",
+            css: "src/webapp/**/*.css",
+            html: "src/webapp/**/*.html",
+            main: "src/webapp/app/main.ts"
+        },
+        distribution: {
+            main: "src/main/resources/static/",
+            app: "src/main/resources/static/app/",
+            lib: "src/main/resources/static/lib/"
+        }
+    };
 
 /*
  * Default-Task
@@ -39,7 +47,7 @@ gulp.task("default", [ "build" ], function() {
 /*
  * Fuehrt die Tasks build:app und ggfs. weitere synchron nacheinander aus.
  */
-gulp.task("build", [ "build:app", "build:html" ], function() {
+gulp.task("build", [ "build:app", "build:lib", "build:html" ], function() {
     // hier sollten build:app, build:html, build:css, build:res und (weitere) nacheinander gelaufen sein.
 });
 
@@ -54,7 +62,6 @@ gulp.task("clean", [ "clean:app" ], function() {
  * Erstellen der Konfigurations-Angular2-App
  */
 gulp.task("build:app", function() {
-    console.log("===== Generating angular2 app...");
     return browserify({
         basedir     : '.',
         debug       : true,
@@ -67,18 +74,25 @@ gulp.task("build:app", function() {
     .pipe(source(appName + ".js"))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(paths.distribution.js));
+    .pipe(gulp.dest(paths.distribution.app));
+//    .pipe(uglify())
+});
+
+/*
+ * Erstellen der CSS-Dateien und der darin benoetigten Dateien
+*/
+gulp.task("build:lib", function() {
+    return gulp.src(dependencies)
+    .pipe(gulp.dest(paths.distribution.lib));
 });
 
 /*
  * Erstellen der CSS-Dateien und der darin benoetigten Dateien
 */
 gulp.task("build:html", function() {
-  console.log("===== Generating Markup for apps...");
     return gulp.src(paths.source.html)
-    .pipe(gulp.dest(paths.distribution.app));
+    .pipe(gulp.dest(paths.distribution.main));
 });
 
 /*
@@ -111,10 +125,7 @@ gulp.task("build:res", function() {
  * Räumt das Distributionsverezeichnis auf
  */
 gulp.task("clean:app", function() {
-    console.log("===== Deleting generated files...");
-    del([
-        paths.distribution.app + "/" + paths.wildcards.js,
-        paths.distribution.app + "/" + paths.wildcards.css,
-        paths.distribution.app + "/" + paths.wildcards.html
+    return del([
+        paths.distribution.main + "**/*"
     ]);
 });
