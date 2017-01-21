@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { User } from './classes/user';
 
 @Component({
   selector: 'paf-quiz',
@@ -6,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     
+    public user : User;
+
+    constructor() {
+        this.user = new User();
+        this.user.logout();
+    }
+
 }
