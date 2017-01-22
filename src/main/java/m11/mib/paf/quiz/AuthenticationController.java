@@ -1,5 +1,7 @@
 package m11.mib.paf.quiz;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 
-import m11.mib.paf.quiz.auth.JWTAuthenticationToken;
 import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
 
@@ -46,22 +49,27 @@ public class AuthenticationController {
      * @return the JSON-Web-Token packed into a JSON
      */
     @RequestMapping(value = "/api/auth/login")
-    public HttpEntity<JWTAuthenticationToken> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
-	User                   user      = this.userRepository.findOne(userId);
-	JWTAuthenticationToken userToken;
+    public HttpEntity<User> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
+	User user = this.userRepository.findOne(userId);
 
-	// ~~~ Login ist fehlgeschlagen aufgrund eines falschen Passworts
+	// ~~~ Login failed due to wrong password
 	if ( !user.logIn(password) ) {
-	    return new ResponseEntity<JWTAuthenticationToken>(HttpStatus.UNAUTHORIZED);
+	    return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
 	}
 
-	// ~~~ Versuchen den JWT-Token erstellen zu lassen
+	// ~~~ Try to create a JWT-Token
 	try {
-	    userToken = new JWTAuthenticationToken(userId, password);
+	    user.token = JWT.create()
+			.withIssuer("paf-quiz")
+			.withSubject(userId)
+			.sign(Algorithm.HMAC256(password));
 	} catch (IllegalArgumentException | JWTCreationException | UnsupportedEncodingException e) {
 	    e.printStackTrace();
-	    return new ResponseEntity<JWTAuthenticationToken>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	return new ResponseEntity<JWTAuthenticationToken>(userToken, HttpStatus.OK);
+	
+	// ~~~ Enhance resource with additional links
+	user.add(linkTo(methodOn(UserRepository.class).findOne(userId)).withSelfRel());
+	return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 }

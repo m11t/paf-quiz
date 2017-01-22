@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import m11.mib.paf.quiz.question.Question;
@@ -24,7 +26,7 @@ import m11.mib.paf.quiz.result.Result;
  * @version 1.0
  */
 @Entity
-public class User {
+public class User extends ResourceSupport {
 
     @Id
     private String id;
@@ -44,6 +46,9 @@ public class User {
     @Transient
     @JsonProperty("id")
     private String jsonId;
+    
+    @Transient
+    public String token;
     
     /**
      * Creates a hash out of the given password String.
