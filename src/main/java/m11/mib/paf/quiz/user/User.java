@@ -127,13 +127,15 @@ public class User {
      * Sets the loggedIn flag of the user
      * 
      * @param password The password with which a User tries to login
+     * @return whether the user successfully logged in
      */
-    public void logIn(String password) {
+    public Boolean logIn(String password) {
 	if ( this.password != encryptPassword(password) ) {
-	    throw new Error("Wrong Password!");//WrongPasswordException();
+	    return false;
 	}
 	
 	this.loggedIn = true;
+	return true;
     }
     /**
      * Resets the loggedIn flag of the user
