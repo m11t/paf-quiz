@@ -69,7 +69,7 @@ public class AuthenticationController {
 	}
 	
 	// ~~~ Enhance resource with additional links
-	user.add(linkTo(methodOn(UserRepository.class).findOne(userId)).withSelfRel());
+	//user.add(linkTo(methodOn(UserRepository.class).findOne(userId)).withSelfRel());
 	return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 }
