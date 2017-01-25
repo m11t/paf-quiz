@@ -1,15 +1,15 @@
 <div class="login-wrapper">
-    <form class="login">
+    <form class="login" (ngSubmit)="onSubmit()" #loginForm="ngForm" >
         <label class="title">
             M11's Quiz
         </label>
         <div class="login-group">
-            <input class="username" type="text" id="login_username" placeholder="Username">
-            <input class="password" type="password" id="login_password" placeholder="Password">
-            <div class="error active">
-                Invalid user name or password
-            </div>
-            <button type="button" class="btn btn-primary" (click)="user.login()" >LOG IN</button>
+            <input class="username" type="text" name="userid" id="login_username" placeholder="Username" required [(ngModel)]="user.id" >
+            <input class="password" type="password" name="password" id="login_password" placeholder="Password" required [(ngModel)]="user.password" >
+            
+            <div class="error active">Invalid user name or password</div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid" >LOG IN</button>
             <a href="..." class="signup">Sign up for an account</a>
         </div>
     </form>

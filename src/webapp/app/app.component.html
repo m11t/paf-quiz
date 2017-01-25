@@ -1,8 +1,8 @@
 <!-- Login-Page -->
-<login [(user)]="user" *ngIf="!user.isLoggedIn"></login>
+<login (onLoginSuccessful)="onLoginSuccessful($event)" *ngIf="!user.loggedIn"></login>
 
 <!-- App Layout: Main Container -->
-<div class="main-container" *ngIf="user.isLoggedIn">
+<div class="main-container" *ngIf="user.loggedIn">
 
     <!-- Application Level Alert -->
     <div class="alert alert-app-level">
