@@ -1,25 +1,16 @@
 /**
- * User
+ * Class containing user specific members and methods
+ * 
+ * @export
+ * @class User
  */
 export class User {
 
-    public isLoggedIn : boolean;
+    public   id       : string;
+    public   password : string;
+    readonly token    : string;
+    readonly loggedIn : boolean;
 
-    constructor() {
-        
-    }
+    constructor() { }
 
-    /**
-     * login
-     */
-    public login() {
-        this.isLoggedIn = true;
-    }
-
-    /**
-     * logout
-     */
-    public logout() {
-        this.isLoggedIn = false;
-    }
 }
