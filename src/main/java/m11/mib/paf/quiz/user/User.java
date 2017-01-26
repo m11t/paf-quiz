@@ -32,7 +32,6 @@ public class User extends ResourceSupport {
     private String id;
     private String password;
     private byte[] salt;
-    private Boolean loggedIn;
     
     @Lob
     private byte[] portrait;
@@ -96,7 +95,6 @@ public class User extends ResourceSupport {
 	this.salt = id.getBytes();
 	randomizer.nextBytes(this.salt);
 	this.password = this.encryptPassword(password);
-	this.loggedIn = false;
     }
     
     /**
@@ -126,7 +124,7 @@ public class User extends ResourceSupport {
      * @return Whether the User is currently logged into the system
      */
     public Boolean isLoggedIn() {
-	return loggedIn;
+	return this.token != "";
     }
     /**
      * Sets the loggedIn flag of the user
@@ -139,14 +137,13 @@ public class User extends ResourceSupport {
 	    return false;
 	}
 	
-	this.loggedIn = true;
 	return true;
     }
     /**
      * Resets the loggedIn flag of the user
      */
     public void logOut() {
-	this.loggedIn = false;
+	this.token = "";
     }
     
 }
