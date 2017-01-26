@@ -9,8 +9,11 @@ export class User {
     public   id       : string;
     public   password : string;
     readonly token    : string;
-    readonly loggedIn : boolean;
 
     constructor() { }
+
+    get isLoggedIn() {
+        return this.token !== "";
+    }
 
 }
