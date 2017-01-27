@@ -10,10 +10,8 @@ export class User {
     public   password : string;
     readonly token    : string;
 
-    constructor() { }
-
-    get isLoggedIn() {
-        return this.token !== "";
-    }
-
+    constructor(user: any = {}) {
+        this.id       = user.id       || "";
+        this.token    = user.token    || "";
+     }
 }

@@ -52,9 +52,13 @@ public class AuthenticationController {
     public HttpEntity<User> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
 	User user = this.userRepository.findOne(userId);
 
+	// ~~~ Login failed due to wrong user id
+	if ( user == null ) {
+	    return new ResponseEntity<User>(new User(), HttpStatus.UNAUTHORIZED);
+	}
 	// ~~~ Login failed due to wrong password
 	if ( !user.logIn(password) ) {
-	    return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
+	    return new ResponseEntity<User>(new User(), HttpStatus.UNAUTHORIZED);
 	}
 
 	// ~~~ Try to create a JWT-Token
@@ -65,11 +69,12 @@ public class AuthenticationController {
 			.sign(Algorithm.HMAC256(password));
 	} catch (IllegalArgumentException | JWTCreationException | UnsupportedEncodingException e) {
 	    e.printStackTrace();
-	    return new ResponseEntity<User>(HttpStatus.INTERNAL_SERVER_ERROR);
+	    return new ResponseEntity<User>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	// ~~~ Enhance resource with additional links
 	//user.add(linkTo(methodOn(UserRepository.class).findOne(userId)).withSelfRel());
 	return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
 }

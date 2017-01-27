@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from './classes/user';
+import { UserService } from './services/user.service';
 
 /**
  * Application Component
@@ -9,13 +10,16 @@ import { User } from './classes/user';
  */
 @Component({
   selector: 'paf-quiz',
-  templateUrl: 'app/app.component.html'
+  templateUrl: 'app/app.component.html',
+  providers: [
+      UserService
+  ]
 })
 export class AppComponent {
-    
-    public user : User;
 
-    constructor() {
+    user: User;
+
+    constructor(public userService: UserService) {
         this.user = new User();
     }
 
@@ -30,4 +34,13 @@ export class AppComponent {
         this.user = user;
     }
 
+    /**
+     * Log out the current user
+     * 
+     * 
+     * @memberOf AppComponent
+     */
+    public logout() {
+        this.user = this.userService.logout();
+    }
 }
