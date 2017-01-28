@@ -1,11 +1,8 @@
-package m11.mib.paf.quiz;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+package m11.mib.paf.quiz.auth;
 
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,16 +46,16 @@ public class AuthenticationController {
      * @return the JSON-Web-Token packed into a JSON
      */
     @RequestMapping(value = "/api/auth/login")
-    public HttpEntity<User> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
+    public ResponseEntity<?> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
 	User user = this.userRepository.findOne(userId);
 
 	// ~~~ Login failed due to wrong user id
 	if ( user == null ) {
-	    return new ResponseEntity<User>(new User(), HttpStatus.UNAUTHORIZED);
+	    throw new NoSuchUserCredentialsException();
 	}
 	// ~~~ Login failed due to wrong password
 	if ( !user.logIn(password) ) {
-	    return new ResponseEntity<User>(new User(), HttpStatus.UNAUTHORIZED);
+	    throw new NoSuchUserCredentialsException();
 	}
 
 	// ~~~ Try to create a JWT-Token
@@ -69,7 +66,7 @@ public class AuthenticationController {
 			.sign(Algorithm.HMAC256(password));
 	} catch (IllegalArgumentException | JWTCreationException | UnsupportedEncodingException e) {
 	    e.printStackTrace();
-	    return new ResponseEntity<User>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+	    throw new FailedJWTCreationException();
 	}
 	
 	// ~~~ Enhance resource with additional links
