@@ -1,5 +1,6 @@
 package m11.mib.paf.quiz.user;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -11,10 +12,12 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.springframework.hateoas.ResourceSupport;
-
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import m11.mib.paf.quiz.auth.FailedJWTCreationException;
 import m11.mib.paf.quiz.question.Question;
 import m11.mib.paf.quiz.result.Result;
 
@@ -26,7 +29,7 @@ import m11.mib.paf.quiz.result.Result;
  * @version 1.0
  */
 @Entity
-public class User extends ResourceSupport {
+public class User {
 
     @Id
     private String id;
@@ -59,7 +62,6 @@ public class User extends ResourceSupport {
     private String encryptPassword(String password) {
 	MessageDigest md = null;
 	StringBuilder sb = new StringBuilder();
-	String encryptedPassword = null;
 	byte[] hash;
 	
 	try {
@@ -74,7 +76,7 @@ public class User extends ResourceSupport {
 	    e.printStackTrace();
 	}
 	
-	return encryptedPassword;
+	return sb.toString();
     }
     
     /**
@@ -133,8 +135,18 @@ public class User extends ResourceSupport {
      * @return whether the user successfully logged in
      */
     public Boolean logIn(String password) {
-	if ( this.password != encryptPassword(password) ) {
+	if ( !this.password.equals(encryptPassword(password)) ) {
 	    return false;
+	}
+
+	try {
+	    this.token = JWT.create()
+		    .withIssuer("paf-quiz")
+		    .withSubject(this.id)
+		    .sign(Algorithm.HMAC256(this.password));
+	} catch (IllegalArgumentException | JWTCreationException | UnsupportedEncodingException e) {
+	    e.printStackTrace();
+	    throw new FailedJWTCreationException();
 	}
 	
 	return true;
