@@ -40,7 +40,7 @@ export class AppComponent {
      * 
      * @memberOf AppComponent
      */
-    public logout() {
-        this.user = this.userService.logout();
+    public logOut() {
+        this.user = this.userService.logOut();
     }
 }
