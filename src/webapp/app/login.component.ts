@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UserService } from './services/user.service';
+import { MessageService } from './services/message.service';
 import { User } from './classes/user';
 
 /**
@@ -12,7 +13,8 @@ import { User } from './classes/user';
   selector: 'login',
   templateUrl: 'app/login.component.html',
   providers: [
-    UserService
+    UserService,
+    MessageService
   ]
 })
 export class LoginComponent {
@@ -22,8 +24,8 @@ export class LoginComponent {
     @Output()
     onLoginSuccessful = new EventEmitter();
 
-    constructor(public userService: UserService) { 
-        this.user = new User();
+    constructor(public userService: UserService, public messageService: MessageService) { 
+        this.user  = new User();
     }
 
     /**
@@ -33,8 +35,14 @@ export class LoginComponent {
      * @memberOf LoginComponent
      */
     public onSubmit() {
-        this.userService.login(this.user.id, this.user.password)
-          .subscribe(user => this.onLoginSuccessful.emit(user));
+        this.userService
+          .login(
+            this.user.id, 
+            this.user.password
+          )
+          .subscribe(
+            user => this.onLoginSuccessful.emit(new User(user))
+          );
     }
     
 }

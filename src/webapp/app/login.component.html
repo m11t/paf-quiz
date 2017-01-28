@@ -7,7 +7,7 @@
             <input class="username" type="text" name="userid" id="login_username" placeholder="Username" required [(ngModel)]="user.id" >
             <input class="password" type="password" name="password" id="login_password" placeholder="Password" required [(ngModel)]="user.password" >
             
-            <div class="error active">Invalid user name or password</div>
+            <div class="error" [class.active]="messageService.message !== ''">{{messageService.message}}</div>
             
             <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid" >LOG IN</button>
             <a href="..." class="signup">Sign up for an account</a>

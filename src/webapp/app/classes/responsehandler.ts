@@ -1,5 +1,6 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { MessageService } from './../services/message.service';
 
 /**
  * Abstract class for handling REST responses
@@ -8,7 +9,29 @@ import { Observable } from 'rxjs/Observable';
  * @class ResponseHandler
  */
 export class ResponseHandler {
+
     protected constructor() { }
+
+    /**
+     * Extracts the error message from a REST response and returns it
+     * 
+     * @protected
+     * @param {(Response | any)} error the REST response
+     * @returns {string}               the error message from the server
+     * 
+     * @memberOf ResponseHandler
+     */
+    protected getError(error: Response | any): string {
+       let errorMessage: string;
+
+        if ( error instanceof Response ) {
+            const body = error.json() || '';
+            errorMessage = body.message || JSON.stringify(body);
+        } else {
+            errorMessage = (error.message) ? error.message : error.toString();
+        }
+        return errorMessage;
+     }
 
     /**
      * Extracts the actual data of a REST response
@@ -33,16 +56,6 @@ export class ResponseHandler {
      * @memberOf ResponseHandler
      */
     protected handleError(error: Response | any) {
-        let errorMessage: string;
-
-        if ( error instanceof Response ) {
-            const body = error.json() || '';
-            const err  = body.error || JSON.stringify(body);
-            errorMessage = error.status + " - " + (error.statusText || '') + " " + err;
-        } else {
-            errorMessage = (error.message) ? error.message : error.toString();
-        }
-        console.error(errorMessage)
-        return Observable.throw(errorMessage);
+        return Observable.throw(this.getError(error));
     }
 }

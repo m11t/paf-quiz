@@ -5,6 +5,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 
 import { User } from './../classes/user';
 import { ResponseHandler } from './../classes/responsehandler';
+import { MessageService } from './message.service';
 
 /**
  * REST service class for interacting with the user REST-API
@@ -24,10 +25,25 @@ export class UserService extends ResponseHandler {
      */
     user: Observable<User>;
     
-    constructor(private http: Http) {
+    constructor(private http: Http, private messageService: MessageService) {
         super();
         this.userSubject = new BehaviorSubject(new User());
         this.user        = this.userSubject.asObservable();
+    }
+
+    /**
+     * Overrides [ResponseHandler.handleError]{@link ResponseHandler#handleError} to additionaly post the message to the global {@link MessageService}
+     * 
+     * @protected
+     * @param {(Response | any)} error
+     * @returns
+     * 
+     * @memberOf UserService
+     */
+    protected handleError(error: Response | any) {
+        let errorMessage = this.getError(error);
+        this.messageService.next(errorMessage);
+        return Observable.throw(errorMessage);
     }
 
     /**
@@ -46,7 +62,11 @@ export class UserService extends ResponseHandler {
         // ~~~ Create observable login request to the server
         let observable = this.http.post(this.authURL+"/login?user="+userId+"&password="+password, options)
                             .map(this.mapJSON)
-                            .catch(this.handleError)
+                            .catch(err => {
+                                let errorMessage = this.getError(err);
+                                this.messageService.next(errorMessage);
+                                return Observable.throw(errorMessage);
+                            })
                             .share();
         // ~~~ Automatically subscribe in order to update the member user
         observable.subscribe(
