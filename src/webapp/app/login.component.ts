@@ -19,13 +19,25 @@ import { User } from './classes/user';
 })
 export class LoginComponent {
 
-    user: User;
+    user         : User;
+    showingSignUp: boolean;
 
     @Output()
     onLoginSuccessful = new EventEmitter();
 
     constructor(public userService: UserService, public messageService: MessageService) { 
-        this.user  = new User();
+        this.user          = new User();
+        this.showingSignUp = false;
+    }
+
+    /**
+     * Toggles the sign up form
+     * 
+     * 
+     * @memberOf LoginComponent
+     */
+    public toggleSignUp() {
+      this.showingSignUp = !this.showingSignUp;
     }
 
     /**
@@ -34,15 +46,35 @@ export class LoginComponent {
      * 
      * @memberOf LoginComponent
      */
-    public onSubmit() {
+    public logIn() {
         this.userService
-          .login(
+          .logIn(
             this.user.id, 
             this.user.password
           )
           .subscribe(
             user => this.onLoginSuccessful.emit(new User(user))
           );
+    }
+
+    /**
+     * Signs the user up for an account and logs him in, if the validation has been successful.
+     * 
+     * 
+     * @memberOf LoginComponent
+     */
+    public signUp() {
+      this.userService
+        .signUp(
+          this.user.id,
+          this.user.password
+        )
+        .subscribe(
+          user => {
+            this.onLoginSuccessful.emit(new User(user));
+            this.showingSignUp = false;
+          }
+        )
     }
     
 }

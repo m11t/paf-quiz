@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response, RequestOptions } from '@angular/http';
+import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 
 import { User } from './../classes/user';
 import { ResponseHandler } from './../classes/responsehandler';
@@ -47,6 +47,32 @@ export class UserService extends ResponseHandler {
     }
 
     /**
+     * Tries to signup the user with the provided user credentials
+     * 
+     * @param {string} userId       the user id
+     * @param {string} password     the password
+     * @returns {Observable<User>}  the observable HTTP-Signup-Request
+     * 
+     * @memberOf UserService
+     */
+    public signUp(userId: string, password: string): Observable<User> {
+        let parameters = new URLSearchParams();
+            parameters.append("user"    , userId);
+            parameters.append("password", password);
+
+        // ~~~ Create observable login request to the server
+        let observable = this.http.post(this.authURL+"/signup", parameters)
+                            .map(this.mapJSON)
+                            .catch(err => this.handleError(err))
+                            .share();
+        // ~~~ Automatically subscribe in order to update the member user
+        observable.subscribe(
+            user => this.userSubject.next(new User(user))
+        );
+        return observable;
+    }
+
+    /**
      * Tries to login with the provided user credentials
      * 
      * @param {string} userId       User ID
@@ -55,18 +81,15 @@ export class UserService extends ResponseHandler {
      * 
      * @memberOf UserService
      */
-    public login(userId: string, password: string): Observable<User> {
-        let headers    = new Headers({'Content-Type': 'application/json'});
-        let options    = new RequestOptions({headers: headers});
+    public logIn(userId: string, password: string): Observable<User> {
+        let parameters = new URLSearchParams();
+            parameters.append("user"    , userId);
+            parameters.append("password", password);
 
         // ~~~ Create observable login request to the server
-        let observable = this.http.post(this.authURL+"/login?user="+userId+"&password="+password, options)
+        let observable = this.http.post(this.authURL+"/login", parameters)
                             .map(this.mapJSON)
-                            .catch(err => {
-                                let errorMessage = this.getError(err);
-                                this.messageService.next(errorMessage);
-                                return Observable.throw(errorMessage);
-                            })
+                            .catch(err => this.handleError(err))
                             .share();
         // ~~~ Automatically subscribe in order to update the member user
         observable.subscribe(
@@ -81,7 +104,7 @@ export class UserService extends ResponseHandler {
      * 
      * @memberOf UserService
      */
-    public logout(): User {
+    public logOut(): User {
         let currentUser = this.userSubject.getValue(),
             nextUser = new User();
         

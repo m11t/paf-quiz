@@ -1,7 +1,9 @@
 <div class="login-wrapper">
-    <form class="login" (ngSubmit)="onSubmit()" #loginForm="ngForm" >
+
+    <!-- Login-Form -->    
+    <form class="login" (ngSubmit)="logIn()" #loginForm="ngForm" *ngIf="!showingSignUp" >
         <label class="title">
-            M11's Quiz
+            Log into M11's Quiz
         </label>
         <div class="login-group">
             <input class="username" type="text" name="userid" id="login_username" placeholder="Username" required [(ngModel)]="user.id" >
@@ -10,7 +12,24 @@
             <div class="error" [class.active]="messageService.message !== ''">{{messageService.message}}</div>
             
             <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid" >LOG IN</button>
-            <a href="..." class="signup">Sign up for an account</a>
+            <a class="signup" (click)="toggleSignUp()">Sign up for an account</a>
         </div>
     </form>
+
+    <!-- Signup-Form -->    
+    <form class="login" (ngSubmit)="signUp()" #signupForm="ngForm" *ngIf="showingSignUp" >
+        <label class="title">
+            Sign up at M11's Quiz
+        </label>
+        <div class="login-group">
+            <input class="username" type="text" name="userid" id="signup_username" placeholder="Username" required [(ngModel)]="user.id" >
+            <input class="password" type="password" name="password" id="signup_password" placeholder="Password" required [(ngModel)]="user.password" >
+            
+            <div class="error" [class.active]="messageService.message !== ''">{{messageService.message}}</div>
+            
+            <button type="submit" class="btn btn-primary" [disabled]="!signupForm.form.valid" >SIGN UP</button>
+            <a class="signup" (click)="toggleSignUp()" >I already have an account</a>
+        </div>
+    </form>
+
 </div>
