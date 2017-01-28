@@ -1,17 +1,15 @@
 package m11.mib.paf.quiz.auth;
 
-import java.io.UnsupportedEncodingException;
+import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
@@ -58,20 +56,27 @@ public class AuthenticationController {
 	    throw new NoSuchUserCredentialsException();
 	}
 
-	// ~~~ Try to create a JWT-Token
-	try {
-	    user.token = JWT.create()
-			.withIssuer("paf-quiz")
-			.withSubject(userId)
-			.sign(Algorithm.HMAC256(password));
-	} catch (IllegalArgumentException | JWTCreationException | UnsupportedEncodingException e) {
-	    e.printStackTrace();
-	    throw new FailedJWTCreationException();
+	// ~~~ Enhance resource with additional links
+	//user.add( new Link("/api/users/{id}").expand(user.getJsonId()).withSelfRel() );
+	return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "/api/auth/signup")
+    public ResponseEntity<?> signup(@RequestParam("user") String userId, @RequestParam("password") String password) {
+
+	// ~~~ Signup failed to duplicate user id
+	if ( this.userRepository.exists(userId) ) {
+	    throw new UserAlreadyExistsException();
 	}
 	
-	// ~~~ Enhance resource with additional links
-	//user.add(linkTo(methodOn(UserRepository.class).findOne(userId)).withSelfRel());
-	return new ResponseEntity<User>(user, HttpStatus.OK);
+	// ~~~ Create new user and save it in the database
+	User user = new User(userId, password);
+	this.userRepository.save(user);
+	
+	// ~~~ Directly log the user into the application
+	user.logIn(password);
+	//user.add( new Link("/api/users/{id}").expand(user.getJsonId()).withSelfRel() );
+	return ResponseEntity.ok(user);
     }
 
 }
