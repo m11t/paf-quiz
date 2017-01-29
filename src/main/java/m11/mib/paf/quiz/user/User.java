@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -29,7 +31,7 @@ import m11.mib.paf.quiz.result.Result;
  * @version 1.0
  */
 @Entity
-public class User {
+public class User extends ResourceSupport {
 
     @Id
     private String id;
@@ -129,7 +131,7 @@ public class User {
 	return this.token != "";
     }
     /**
-     * Sets the loggedIn flag of the user
+     * Validates the provided password and afterwards generates the JSON-Web-Token with the legitimate claim of the user
      * 
      * @param password The password with which a User tries to login
      * @return whether the user successfully logged in

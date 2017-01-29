@@ -1,15 +1,11 @@
 package m11.mib.paf.quiz.auth;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.rest.webmvc.support.RepositoryEntityLinks;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
@@ -24,14 +20,16 @@ import m11.mib.paf.quiz.user.UserRepository;
 @RestController
 public class AuthenticationController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RepositoryEntityLinks entityLinks;
     
     /**
      * @param userRepository 
      */
     @Autowired
-    public AuthenticationController(UserRepository userRepository) {
+    public AuthenticationController(UserRepository userRepository, RepositoryEntityLinks entityLinks) {
 	this.userRepository = userRepository;
+	this.entityLinks    = entityLinks;
     }
     
     /**
@@ -41,7 +39,7 @@ public class AuthenticationController {
      * 
      * @param userId
      * @param password
-     * @return the JSON-Web-Token packed into a JSON
+     * @return the User with its valid claim as a JSON-Web-Token
      */
     @RequestMapping(value = "/api/auth/login")
     public ResponseEntity<?> login(@RequestParam("user") String userId, @RequestParam("password") String password) {
@@ -56,11 +54,20 @@ public class AuthenticationController {
 	    throw new NoSuchUserCredentialsException();
 	}
 
-	// ~~~ Enhance resource with additional links
-	//user.add( new Link("/api/users/{id}").expand(user.getJsonId()).withSelfRel() );
-	return new ResponseEntity<User>(user, HttpStatus.OK);
+	// ~~~ Add additional links
+	user.add(this.entityLinks.linkToSingleResource(User.class, user.getJsonId()).withSelfRel());
+	return ResponseEntity.ok(user);
     }
     
+    /**
+     * REST-Endpoint for signing up to the quiz.
+     * Takes the user credentials and tries to create a new user in the database.
+     * At the end the user is directly logged into the system and returned with the users legitimate claim.
+     * 
+     * @param userId
+     * @param password
+     * @return the User with its valid claim as a JSON-Web-Token
+     */
     @RequestMapping(value = "/api/auth/signup")
     public ResponseEntity<?> signup(@RequestParam("user") String userId, @RequestParam("password") String password) {
 
@@ -75,7 +82,9 @@ public class AuthenticationController {
 	
 	// ~~~ Directly log the user into the application
 	user.logIn(password);
-	//user.add( new Link("/api/users/{id}").expand(user.getJsonId()).withSelfRel() );
+
+	// ~~~ Build a User resource and add additional links
+	user.add(this.entityLinks.linkToSingleResource(User.class, user.getJsonId()).withSelfRel());
 	return ResponseEntity.ok(user);
     }
 
