@@ -1,6 +1,6 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { MessageService } from './../services/message.service';
+import { MessageService } from './../misc/message.service';
 
 /**
  * Abstract class for handling REST responses

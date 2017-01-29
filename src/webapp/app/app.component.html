@@ -4,22 +4,20 @@
 <!-- App Layout: Main Container -->
 <div class="main-container" *ngIf="user.token !== ''">
 
-    <!-- Application Level Alert -->
-    <div class="alert alert-app-level">
-        ...
-    </div>
-
     <!-- Application Header mit Navigation -->
     <header class="header header-3">
         <div class="branding">
-            <a href="..." class="nav-link">
-                <clr-icon shape="vm-bug"></clr-icon>
-                <span class="title">Project Clarity</span>
+            <a class="nav-link">
+                <span class="title">M11's Quiz</span>
             </a>
         </div>
         <div class="header-nav">
-            <a href="..." class="active nav-link"><span class="nav-text">Dashboard</span></a>
-            <a href="..." class="nav-link"><span class="nav-text">Interactive Analytics</span></a>
+            <a href="..." class="active nav-link">
+                <span class="nav-text">My Questions</span>
+            </a>
+            <a href="..." class="nav-link">
+                <span class="nav-text">My Statistics</span>
+            </a>
         </div>
         <div class="header-actions">
             <a class="nav-link nav-icon" (click)="logOut()">
@@ -27,17 +25,13 @@
             </a>
         </div>
     </header>
-    <nav class="subnav">
-        ...
-    </nav>
 
     <!-- Content-Bereich mit Seitennavigation -->
     <div class="content-container">
         <div class="content-area">
-            ...
+
+            <question-overview [user]="userService.user"></question-overview>
+
         </div>
-        <nav class="sidenav">
-            ...
-        </nav>
     </div>
 </div>

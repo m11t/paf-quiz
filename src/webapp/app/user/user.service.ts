@@ -3,9 +3,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 
-import { User } from './../classes/user';
-import { ResponseHandler } from './../classes/responsehandler';
-import { MessageService } from './message.service';
+import { User } from './user';
+import { ResponseHandler } from './../misc/responsehandler';
+import { MessageService } from './../misc/message.service';
 
 /**
  * REST service class for interacting with the user REST-API
@@ -17,18 +17,16 @@ import { MessageService } from './message.service';
 @Injectable()
 export class UserService extends ResponseHandler {
     private authURL = "/api/auth";
-    private userSubject: BehaviorSubject<User>;
 
     /**
-     * @member {BehaviorSubject<User>} user Current user
+     * @member {User} user Current user
      * @memberOf UserService
      */
-    user: Observable<User>;
+    user: User;
     
     constructor(private http: Http, private messageService: MessageService) {
         super();
-        this.userSubject = new BehaviorSubject(new User());
-        this.user        = this.userSubject.asObservable();
+        this.user = new User();
     }
 
     /**
@@ -48,6 +46,7 @@ export class UserService extends ResponseHandler {
 
     /**
      * Tries to signup the user with the provided user credentials
+     * If this is successful the users links are additionally loaded and the observable {@link UserService#user} is updated
      * 
      * @param {string} userId       the user id
      * @param {string} password     the password
@@ -66,14 +65,19 @@ export class UserService extends ResponseHandler {
                             .catch(err => this.handleError(err))
                             .share();
         // ~~~ Automatically subscribe in order to update the member user
-        observable.subscribe(
-            user => this.userSubject.next(new User(user))
-        );
+        observable.subscribe(user => {
+            let userWithLinks = new User(user);
+            this.http.get(user._links.self.href).map(this.mapJSON).catch(err => this.handleError(err)).subscribe(userResource => {
+                userWithLinks.setLinks(userResource._links);
+                this.user = userWithLinks;
+            });
+        });
         return observable;
     }
 
     /**
      * Tries to login with the provided user credentials
+     * If this is successful the users links are additionally loaded and the observable {@link UserService#user} is updated
      * 
      * @param {string} userId       User ID
      * @param {string} password     Password
@@ -92,9 +96,13 @@ export class UserService extends ResponseHandler {
                             .catch(err => this.handleError(err))
                             .share();
         // ~~~ Automatically subscribe in order to update the member user
-        observable.subscribe(
-            user => this.userSubject.next(new User(user))
-        );
+        observable.subscribe(user => {
+            let userWithLinks = new User(user);
+            this.http.get(user._links.self.href).map(this.mapJSON).catch(err => this.handleError(err)).subscribe(userResource => {
+                userWithLinks.setLinks(userResource._links);
+                this.user = userWithLinks;
+            });
+        });
         return observable;
     }
 
@@ -105,11 +113,10 @@ export class UserService extends ResponseHandler {
      * @memberOf UserService
      */
     public logOut(): User {
-        let currentUser = this.userSubject.getValue(),
-            nextUser = new User();
-        
-        nextUser.id = currentUser.id;
-        this.userSubject.next(nextUser);
-        return nextUser;
+        let currentUser = this.user;
+        this.user       = new User();
+        this.user.id    = currentUser.id;
+        return this.user;
     }
+
 }

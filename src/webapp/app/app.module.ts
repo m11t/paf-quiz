@@ -6,9 +6,10 @@ import { ClarityModule } from 'clarity-angular';
 
 import { AppComponent }   from './app.component';
 import { LoginComponent } from './login.component';
+import { QuestionOverviewComponent } from './question/overview.component';
 
-import { UserService } from './services/user.service';
-import { MessageService } from './services/message.service';
+import { UserService } from './user/user.service';
+import { MessageService } from './misc/message.service';
 
 @NgModule({
   imports: [ 
@@ -24,7 +25,8 @@ import { MessageService } from './services/message.service';
   ],
   declarations: [ 
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    QuestionOverviewComponent
   ],
   bootstrap: [ 
     AppComponent 

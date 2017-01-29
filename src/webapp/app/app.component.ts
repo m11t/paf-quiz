@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { User } from './classes/user';
-import { UserService } from './services/user.service';
+import { User } from './user/user';
+import { UserService } from './user/user.service';
+import { MessageService } from './misc/message.service';
 
 /**
  * Application Component

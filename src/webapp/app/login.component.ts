@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { UserService } from './services/user.service';
-import { MessageService } from './services/message.service';
-import { User } from './classes/user';
+import { UserService } from './user/user.service';
+import { MessageService } from './misc/message.service';
+import { User } from './user/user';
 
 /**
  * Login Component 
