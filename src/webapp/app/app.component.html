@@ -12,10 +12,10 @@
             </a>
         </div>
         <div class="header-nav">
-            <a href="..." class="active nav-link">
+            <a class="nav-link" routerLink="questions" routerLinkActive="active" >
                 <span class="nav-text">My Questions</span>
             </a>
-            <a href="..." class="nav-link">
+            <a class="nav-link">
                 <span class="nav-text">My Statistics</span>
             </a>
         </div>
@@ -30,7 +30,7 @@
     <div class="content-container">
         <div class="content-area">
 
-            <question-overview [user]="userService.user"></question-overview>
+            <router-outlet></router-outlet>            
 
         </div>
     </div>
