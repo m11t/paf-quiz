@@ -11,21 +11,30 @@ export class User {
     public   id       : string;
     public   password : string;
     readonly token    : string;
-    public   links    : UserLinks;
+    readonly _links    : UserLinks;
 
     constructor(user: any = {}) {
-        this.id       = user.id       || "";
-        this.token    = user.token    || "";
+        this.id       = user.id     || "";
+        this.token    = user.token  || "";
+        this._links   = user._links || null;
      }
 
      /**
-      * Set the association links for this user resource so that another service can easily consume those resources
+      * Create a new user with the provided property values
       * 
+      * @static
+      * @param {string}    id
+      * @param {string}    token
       * @param {UserLinks} links
+      * @returns a new user with the provided property values
       * 
       * @memberOf User
       */
-     public setLinks(links: UserLinks) {
-         this.links = links;
+     public static createUser(id: string, token: string, links: UserLinks) {
+         return new User({
+             id    : id,
+             token : token,
+             _links: links
+         })
      }
 }

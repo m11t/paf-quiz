@@ -18,15 +18,8 @@ import { MessageService } from './../misc/message.service';
 export class UserService extends ResponseHandler {
     private authURL = "/api/auth";
 
-    /**
-     * @member {User} user Current user
-     * @memberOf UserService
-     */
-    user: User;
-    
     constructor(private http: Http, private messageService: MessageService) {
         super();
-        this.user = new User();
     }
 
     /**
@@ -45,6 +38,21 @@ export class UserService extends ResponseHandler {
     }
 
     /**
+     * Returns an observable for the http request to a user resource
+     * 
+     * @param {string} link         link to the user resource
+     * @returns {Observable<User>}  HTTP-Request-Observable
+     * 
+     * @memberOf UserService
+     */
+    public getUser(link: string): Observable<User> {
+        return this.http
+                .get(link)
+                .map(this.mapJSON)
+                .catch(err => this.handleError(err));
+    }
+
+    /**
      * Tries to signup the user with the provided user credentials
      * If this is successful the users links are additionally loaded and the observable {@link UserService#user} is updated
      * 
@@ -60,19 +68,10 @@ export class UserService extends ResponseHandler {
             parameters.append("password", password);
 
         // ~~~ Create observable login request to the server
-        let observable = this.http.post(this.authURL+"/signup", parameters)
-                            .map(this.mapJSON)
-                            .catch(err => this.handleError(err))
-                            .share();
-        // ~~~ Automatically subscribe in order to update the member user
-        observable.subscribe(user => {
-            let userWithLinks = new User(user);
-            this.http.get(user._links.self.href).map(this.mapJSON).catch(err => this.handleError(err)).subscribe(userResource => {
-                userWithLinks.setLinks(userResource._links);
-                this.user = userWithLinks;
-            });
-        });
-        return observable;
+        return this.http
+                .post(this.authURL+"/signup", parameters)
+                .map(this.mapJSON)
+                .catch(err => this.handleError(err));
     }
 
     /**
@@ -91,32 +90,24 @@ export class UserService extends ResponseHandler {
             parameters.append("password", password);
 
         // ~~~ Create observable login request to the server
-        let observable = this.http.post(this.authURL+"/login", parameters)
-                            .map(this.mapJSON)
-                            .catch(err => this.handleError(err))
-                            .share();
-        // ~~~ Automatically subscribe in order to update the member user
-        observable.subscribe(user => {
-            let userWithLinks = new User(user);
-            this.http.get(user._links.self.href).map(this.mapJSON).catch(err => this.handleError(err)).subscribe(userResource => {
-                userWithLinks.setLinks(userResource._links);
-                this.user = userWithLinks;
-            });
-        });
-        return observable;
+        return this.http
+                .post(this.authURL+"/login", parameters)
+                .map(this.mapJSON)
+                .catch(err => this.handleError(err));
     }
 
     /**
      * Logs out the current user 
      * 
+     * @param {User} currentUser
+     * @returns {User}           a user dummy with only the previously logged in users id
      * 
      * @memberOf UserService
      */
-    public logOut(): User {
-        let currentUser = this.user;
-        this.user       = new User();
-        this.user.id    = currentUser.id;
-        return this.user;
+    public logOut(currentUser: User): User {
+        let nextUser    = new User();
+            nextUser.id = currentUser.id;
+        return nextUser;
     }
 
 }

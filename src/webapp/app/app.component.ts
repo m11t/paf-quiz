@@ -42,6 +42,6 @@ export class AppComponent {
      * @memberOf AppComponent
      */
     public logOut() {
-        this.user = this.userService.logOut();
+        this.user = this.userService.logOut(this.user);
     }
 }

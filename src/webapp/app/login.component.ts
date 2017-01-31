@@ -53,7 +53,10 @@ export class LoginComponent {
             this.user.password
           )
           .subscribe(
-            user => this.onLoginSuccessful.emit(new User(user))
+            loggedUser => {
+              this.userService.getUser(loggedUser._links.self.href)
+                .subscribe(linkingUser => this.onLoginSuccessful.emit(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links)));
+            }
           );
     }
 
@@ -70,9 +73,12 @@ export class LoginComponent {
           this.user.password
         )
         .subscribe(
-          user => {
-            this.onLoginSuccessful.emit(new User(user));
-            this.showingSignUp = false;
+          loggedUser => {
+            this.userService.getUser(loggedUser._links.self.href)
+              .subscribe(linkingUser => {
+                this.onLoginSuccessful.emit(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
+                this.showingSignUp = false;
+              });
           }
         )
     }
