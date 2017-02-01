@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from './user/user.service';
 import { MessageService } from './misc/message.service';
 import { User } from './user/user';
@@ -17,17 +18,23 @@ import { User } from './user/user';
     MessageService
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
+    forwardTo    : string;
     user         : User;
     showingSignUp: boolean;
 
-    @Output()
-    onLoginSuccessful = new EventEmitter();
+    constructor(
+        private route         : ActivatedRoute,
+        private router        : Router,
+        public  userService   : UserService, 
+        public  messageService: MessageService
+    ) {}
 
-    constructor(public userService: UserService, public messageService: MessageService) { 
+    ngOnInit() {
         this.user          = new User();
         this.showingSignUp = false;
+        this.forwardTo     = this.route.snapshot.queryParams['forwardTo'] || '';
     }
 
     /**
@@ -55,7 +62,10 @@ export class LoginComponent {
           .subscribe(
             loggedUser => {
               this.userService.getUser(loggedUser._links.self.href)
-                .subscribe(linkingUser => this.onLoginSuccessful.emit(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links)));
+                .subscribe(linkingUser => {
+                  this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
+                  this.router.navigate([this.forwardTo]);
+                });
             }
           );
     }
@@ -76,7 +86,7 @@ export class LoginComponent {
           loggedUser => {
             this.userService.getUser(loggedUser._links.self.href)
               .subscribe(linkingUser => {
-                this.onLoginSuccessful.emit(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
+                this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
                 this.showingSignUp = false;
               });
           }

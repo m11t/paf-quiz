@@ -21,7 +21,7 @@ export class AppComponent {
     user: User;
 
     constructor(public userService: UserService) {
-        this.user = new User();
+        this.user = JSON.parse(localStorage.getItem('user'));
     }
 
     /**
@@ -33,6 +33,7 @@ export class AppComponent {
      */
     public onLoginSuccessful(user: User) {
         this.user = user;
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     /**
@@ -43,5 +44,6 @@ export class AppComponent {
      */
     public logOut() {
         this.user = this.userService.logOut(this.user);
+        localStorage.removeItem('user');
     }
 }

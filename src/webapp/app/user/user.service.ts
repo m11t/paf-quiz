@@ -53,6 +53,38 @@ export class UserService extends ResponseHandler {
     }
 
     /**
+     * Cache a User as current user in the localStorage
+     * 
+     * @param {User} user
+     * 
+     * @memberOf UserService
+     */
+    public setUserToLocalStorage(user: User) {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    /**
+     * Return the user from the localStorage
+     * 
+     * @returns {User}
+     * 
+     * @memberOf UserService
+     */
+    public getUserFromLocalStorage(): User {
+        return new User(JSON.parse(localStorage.getItem('user')));
+    }
+
+    /**
+     * Remove the current user from the localStorage
+     * 
+     * 
+     * @memberOf UserService
+     */
+    public removeUserFromLocalStorage() {
+        localStorage.removeItem('user');
+    }
+
+    /**
      * Tries to signup the user with the provided user credentials
      * If this is successful the users links are additionally loaded and the observable {@link UserService#user} is updated
      * 
@@ -107,6 +139,8 @@ export class UserService extends ResponseHandler {
     public logOut(currentUser: User): User {
         let nextUser    = new User();
             nextUser.id = currentUser.id;
+
+        this.removeUserFromLocalStorage();
         return nextUser;
     }
 

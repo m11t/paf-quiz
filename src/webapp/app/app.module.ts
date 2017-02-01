@@ -8,10 +8,12 @@ import { RoutingModule } from './routing.module';
 
 import { AppComponent }   from './app.component';
 import { LoginComponent } from './login.component';
+import { WrapperComponent } from './wrapper.component';
 import { PageNotFoundComponent } from './misc/404.component';
 import { QuestionOverviewComponent } from './question/overview.component';
 import { QuestionFormComponent } from './question/form.component';
 
+import { RestrictedAreaGuard } from './user/restricted-area.guard';
 import { UserService } from './user/user.service';
 import { MessageService } from './misc/message.service';
 
@@ -31,12 +33,14 @@ import { MessageService } from './misc/message.service';
     RoutingModule
   ],
   providers: [
+    RestrictedAreaGuard,
     UserService,
     MessageService
   ],
   declarations: [ 
     AppComponent,
     LoginComponent,
+    WrapperComponent,
     PageNotFoundComponent,
     QuestionOverviewComponent,
     QuestionFormComponent
