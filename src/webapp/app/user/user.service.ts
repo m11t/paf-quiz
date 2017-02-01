@@ -71,7 +71,8 @@ export class UserService extends ResponseHandler {
      * @memberOf UserService
      */
     public getUserFromLocalStorage(): User {
-        return new User(JSON.parse(localStorage.getItem('user')));
+        let user = JSON.parse(localStorage.getItem('user')) || {};
+        return new User(user);
     }
 
     /**

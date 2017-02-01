@@ -4,7 +4,8 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { ClarityModule } from 'clarity-angular';
 
-import { RoutingModule } from './routing.module';
+import { AppRoutingModule } from './app.routes';
+import { WrapperRoutingModule } from './wrapper.routes';
 
 import { AppComponent }   from './app.component';
 import { LoginComponent } from './login.component';
@@ -30,7 +31,8 @@ import { MessageService } from './misc/message.service';
     HttpModule,
     JsonpModule,
     ClarityModule.forChild(),
-    RoutingModule
+    WrapperRoutingModule,
+    AppRoutingModule
   ],
   providers: [
     RestrictedAreaGuard,

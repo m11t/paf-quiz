@@ -14,13 +14,9 @@ import { RestrictedAreaGuard } from './user/restricted-area.guard';
  * Application Routes
  */
 const appRoutes: Routes = [
-    { path: ''            , component : WrapperComponent, canActivate: [RestrictedAreaGuard] },
-    { path: 'login'       , component : LoginComponent },
-//    { path: 'questions'   , component : QuestionOverviewComponent },
-//    { path: 'hero/:id'     , component : HeroDetailComponent },
-//    { path: 'question/new', component : QuestionFormComponent     },
-//    { path: ''             , redirectTo: '/questions'             , pathMatch: 'full', canActivate: [RestrictedAreaGuard]},
-    { path: '**'           , component : PageNotFoundComponent }
+    { path: ''     , component : WrapperComponent, pathMatch: 'full', canActivate: [RestrictedAreaGuard] },
+    { path: 'login', component : LoginComponent },
+    { path: '**'   , component : PageNotFoundComponent }
 ]
 
 /**
@@ -37,4 +33,4 @@ const appRoutes: Routes = [
         RouterModule
     ]
 })
-export class RoutingModule {}
+export class AppRoutingModule {}
