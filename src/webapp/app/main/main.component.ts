@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './user/user';
-import { UserService } from './user/user.service';
-import { MessageService } from './misc/message.service';
+import { User } from './../user/user';
+import { UserService } from './../user/user.service';
+import { MessageService } from './../misc/message.service';
 
 /**
  * Application Component
@@ -11,12 +11,12 @@ import { MessageService } from './misc/message.service';
  * @class WrapperComponent
  */
 @Component({
-  templateUrl: 'app/wrapper.component.html',
+  templateUrl: 'app/main/main.component.html',
   providers: [
       UserService
   ]
 })
-export class WrapperComponent {
+export class MainComponent {
 
     user: User;
 

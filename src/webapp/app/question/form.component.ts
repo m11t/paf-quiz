@@ -9,7 +9,6 @@ import { User } from './../user/user';
  * @class QuestionFormComponent
  */
 @Component({
-    selector: "question-form",
     templateUrl: "app/question/form.component.html"
 })
 export class QuestionFormComponent {

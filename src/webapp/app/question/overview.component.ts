@@ -10,7 +10,6 @@ import { User } from './../user/user';
  * @class QuestionOverviewComponent
  */
 @Component({
-    selector: "question-overview",
     templateUrl: "app/question/overview.component.html"
 })
 export class QuestionOverviewComponent implements OnInit {
