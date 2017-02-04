@@ -9,12 +9,14 @@ var gulp       = require("gulp"),  // Instruct Node.js to load gulp
     del        = require("del");
 
 var appName = "paf-quiz",
+    fonts = "node_modules/font-awesome/fonts/*",
     dependencies = [
         "node_modules/core-js/client/shim.min.js",
         "node_modules/zone.js/dist/zone.js",
         "node_modules/clarity-ui/clarity-ui.min.css",
         "node_modules/clarity-icons/clarity-icons.min.js",
         "node_modules/clarity-icons/clarity-icons.min.css",
+        "node_modules/font-awesome/css/font-awesome.min.css",
         "node_modules/@webcomponents/custom-elements/custom-elements.min.js"
     ],
     paths = {
@@ -33,7 +35,8 @@ var appName = "paf-quiz",
         distribution: {
             main: "src/main/resources/static/",
             app: "src/main/resources/static/app/",
-            lib: "src/main/resources/static/lib/"
+            lib: "src/main/resources/static/lib/",
+            font: "src/main/resources/static/fonts/"
         }
     };
 
@@ -47,8 +50,8 @@ gulp.task("default", [ "build" ], function() {
 /*
  * Fuehrt die Tasks build:app und ggfs. weitere synchron nacheinander aus.
  */
-gulp.task("build", [ "build:app", "build:lib", "build:html" ], function() {
-    // hier sollten build:app, build:html, build:css, build:res und (weitere) nacheinander gelaufen sein.
+gulp.task("build", [ "build:app", "build:lib", "build:html", "build:fonts" ], function() {
+    // hier sollten build:app, build:lib, build:html, build:fonts und (weitere) nacheinander gelaufen sein.
 });
 
 /*
@@ -80,11 +83,19 @@ gulp.task("build:app", function() {
 });
 
 /*
- * Erstellen der CSS-Dateien und der darin benoetigten Dateien
+ * Erstellen der Lib-Dateien und der darin benoetigten Dateien
 */
 gulp.task("build:lib", function() {
     return gulp.src(dependencies)
     .pipe(gulp.dest(paths.distribution.lib));
+});
+
+/*
+ * Erstellen der Font-Dateien und der darin benoetigten Dateien
+*/
+gulp.task("build:fonts", function() {
+    return gulp.src(fonts)
+    .pipe(gulp.dest(paths.distribution.font));
 });
 
 /*
