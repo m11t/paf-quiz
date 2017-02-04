@@ -1,28 +1,32 @@
 <form #questionForm="ngForm" (ngSubmit)="onSubmit()" >
 
-    <section class="form-block">
+    <fieldset class="form-block">
         <label>Add a question</label>
-        
-        <div class="form-group">
-            <label for="QuestionLabel"></label>
-            <label for="QuestionLabel" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionLabel.invalid">
-                <input type="text" name="QuestionLabel" id="QuestionLabel" placeholder="Enter a label" required [(ngModel)]="question.label" #QuestionLabel="ngModel" >
-                <span class="tooltip-content">
-                    Label for this question is required.
-                </span>
-            </label>
+
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3">
+                <label for="QuestionLabel">Name</label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-8 col-xl-9">
+                <label for="QuestionLabel" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionLabel.invalid">
+                    <input type="text" name="QuestionLabel" id="QuestionLabel" placeholder="Enter a label" required [(ngModel)]="question.label" #QuestionLabel="ngModel" >
+                    <span class="tooltip-content">Name for this question is required.</span>
+                </label>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="QuestionText"></label>
-            <label for="QuestionText" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionText.invalid">
-                <textarea type="text" name="QuestionText" id="QuestionText" placeholder="Enter a text" required [(ngModel)]="question.label" #QuestionText="ngModel"></textarea>
-                <span class="tooltip-content">
-                    Label for this question is required.
-                </span>
-            </label>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3">
+                <label for="QuestionText">Question text</label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-8 col-xl-9">
+                <label for="QuestionText" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionText.invalid">
+                    <textarea type="text" name="QuestionText" id="QuestionText" placeholder="Enter a text" required [(ngModel)]="question.text" #QuestionText="ngModel"></textarea>
+                    <span class="tooltip-content">Text for this question is required.</span>
+                </label>
+            </div>
         </div>
 
-    </section>
-
+        <button type="submit" class="btn btn-primary">Button</button>
+    </fieldset>
 </form>

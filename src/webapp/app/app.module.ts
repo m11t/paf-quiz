@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './misc/404.component';
 
 import { RestrictedAreaGuard } from './user/restricted-area.guard';
 import { UserService } from './user/user.service';
+import { QuestionService } from './question/question.service';
 import { MessageService } from './misc/message.service';
 
 /**
@@ -23,7 +24,7 @@ import { MessageService } from './misc/message.service';
  */
 @NgModule({
   imports: [ 
-    BrowserModule, 
+    BrowserModule,
     FormsModule,
     HttpModule,
     JsonpModule,
@@ -34,6 +35,7 @@ import { MessageService } from './misc/message.service';
   providers: [
     RestrictedAreaGuard,
     UserService,
+    QuestionService,
     MessageService
   ],
   declarations: [ 

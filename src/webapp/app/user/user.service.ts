@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, RequestOptions, URLSearchParams } from '@angular/http';
 

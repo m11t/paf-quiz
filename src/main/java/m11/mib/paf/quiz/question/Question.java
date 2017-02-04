@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import m11.mib.paf.quiz.answer.Answer;
 import m11.mib.paf.quiz.category.Category;
 import m11.mib.paf.quiz.result.Result;
 import m11.mib.paf.quiz.user.User;
@@ -40,7 +41,10 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "questioner")
     private User questioner;
-    
+ 
+    @OneToMany(mappedBy = "questionOfAnswer")
+    private List<Answer> answers;
+
     @OneToMany(mappedBy = "resultForQuestion")
     private List<Result> results;
     
@@ -119,5 +123,61 @@ public class Question {
     public void setImage(byte[] image) {
 	this.image = image;
     }
-    
+
+    /**
+     * @return the questioner
+     */
+    public User getQuestioner() {
+        return questioner;
+    }
+
+    /**
+     * @param questioner the questioner to set
+     */
+    public void setQuestioner(User questioner) {
+        this.questioner = questioner;
+    }
+
+    /**
+     * @return the answers
+     */
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    /**
+     * @param answers the answers to set
+     */
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    /**
+     * @return the results
+     */
+    public List<Result> getResults() {
+        return results;
+    }
+
+    /**
+     * @param results the results to set
+     */
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
+
+    /**
+     * @return the isCategorizedBy
+     */
+    public List<Category> getIsCategorizedBy() {
+        return isCategorizedBy;
+    }
+
+    /**
+     * @param isCategorizedBy the isCategorizedBy to set
+     */
+    public void setIsCategorizedBy(List<Category> isCategorizedBy) {
+        this.isCategorizedBy = isCategorizedBy;
+    }
+
 }

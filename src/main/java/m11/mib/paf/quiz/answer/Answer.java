@@ -35,7 +35,7 @@ public class Answer {
 
     @ManyToMany(mappedBy = "givenAnswers")
     private List<Result> results;
-
+    
     public Answer() {}
     
     /**

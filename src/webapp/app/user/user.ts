@@ -1,4 +1,4 @@
-import { UserLinks } from './links.interface';
+import { UserLinks } from './userlinks.interface';
 
 /**
  * Class containing user specific members and methods
