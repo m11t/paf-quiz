@@ -16,6 +16,8 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 
+import m11.mib.paf.quiz.category.Category;
+import m11.mib.paf.quiz.category.CategoryRepository;
 import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
 
@@ -57,7 +59,8 @@ public class Application {
     @Bean
     public CommandLineRunner demo(
 	    	RepositoryRestConfiguration config,
-	    	UserRepository userRepository
+	    	UserRepository userRepository,
+	    	CategoryRepository categoryRepository
 	   ) {
 	return (args) -> {
 
@@ -70,6 +73,14 @@ public class Application {
 	    for (User user : userRepository.findAll()) {
 		log.info(user.toString());
 	    }
+	    
+	    // ~~~ Mehrere Standardkategorien (Trivial Pursuit)
+	    categoryRepository.save(new Category("Erdkunde"));
+	    categoryRepository.save(new Category("Unterhaltung"));
+	    categoryRepository.save(new Category("Geschichte"));
+	    categoryRepository.save(new Category("Kunst und Literatur"));
+	    categoryRepository.save(new Category("Wissenschaft und Technik"));
+	    categoryRepository.save(new Category("Sport und Vergnügen"));
 	};
     }
 

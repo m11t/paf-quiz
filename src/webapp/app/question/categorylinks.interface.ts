@@ -1,12 +1,12 @@
 import { Link } from './../misc/link.interface';
 
 /**
- * Interface describing the HAL link structure of a question resource
+ * Interface describing the HAL link structure of a category resource
  * 
  * @export
- * @interface QuestionLinks
+ * @interface CategoryLinks
  */
-export interface QuestionLinks {
+export interface CategoryLinks {
     self     : Link;
     category : Link;
     questions: Link; 

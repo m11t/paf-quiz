@@ -1,3 +1,8 @@
+<button type="button" class="btn btn-outline" routerLink="..">
+    <clr-icon shape="caret left"></clr-icon>
+    Back
+</button>
+
 <form #questionForm="ngForm" (ngSubmit)="onSubmit()" >
 
     <fieldset class="form-block">
@@ -5,11 +10,11 @@
 
         <div class="form-group row">
             <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3">
-                <label for="QuestionLabel">Name</label>
+                <label for="QuestionLabel" class="required">Name</label>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-8 col-xl-9">
-                <label for="QuestionLabel" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionLabel.invalid">
-                    <input type="text" name="QuestionLabel" id="QuestionLabel" placeholder="Enter a label" required [(ngModel)]="question.label" #QuestionLabel="ngModel" >
+                <label for="QuestionLabel" role="tooltip" class="form-control tooltip tooltip-top-left tooltip-validation tooltip-md" [class.invalid]="QuestionLabel.invalid">
+                    <input type="text" class="form-control" name="QuestionLabel" id="QuestionLabel" placeholder="Enter a label" required [(ngModel)]="question.label" #QuestionLabel="ngModel" >
                     <span class="tooltip-content">Name for this question is required.</span>
                 </label>
             </div>
@@ -17,16 +22,39 @@
 
         <div class="form-group row">
             <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3">
-                <label for="QuestionText">Question text</label>
+                <label for="QuestionText" class="required">Question text</label>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-8 col-xl-9">
-                <label for="QuestionText" role="tooltip" class="tooltip tooltip-validation tooltip-md" [class.invalid]="QuestionText.invalid">
-                    <textarea type="text" name="QuestionText" id="QuestionText" placeholder="Enter a text" required [(ngModel)]="question.text" #QuestionText="ngModel"></textarea>
+                <label for="QuestionText" role="tooltip" class="form-control tooltip tooltip-top-left tooltip-validation tooltip-md" [class.invalid]="QuestionText.invalid">
+                    <textarea type="text" class="form-control" name="QuestionText" id="QuestionText" placeholder="Enter a text" required [(ngModel)]="question.text" #QuestionText="ngModel"></textarea>
                     <span class="tooltip-content">Text for this question is required.</span>
                 </label>
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Button</button>
+        <div class="form-group row">
+            <div class="col-xs-12 col-sm-6 col-lg-4 col-xl-3">
+                <label for="Categories">Categories</label>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-8 col-xl-9">
+                <clr-dropdown [clrMenuPosition]="'bottom-right'">
+                    <button type="button" clrDropdownToggle>
+                        <clr-icon shape="plus" size="24"></clr-icon>
+                        <clr-icon shape="caret down"></clr-icon>
+                    </button>
+                    <div class="dropdown-menu">
+                        <label class="dropdown-header">Add a category</label>
+                        <a clrDropdownItem *ngFor="let category of categories" (click)="question.addCategory(category)">{{category.name}}</a>
+                    </div>
+                </clr-dropdown>
+
+                <span class="label" *ngFor="let category of question.categorisation; let i = index">
+                    {{category.name}}
+                    <a (click)="question.removeCategory(i)"><clr-icon shape="close"></clr-icon></a>
+                </span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create</button>
     </fieldset>
 </form>

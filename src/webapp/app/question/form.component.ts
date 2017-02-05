@@ -5,6 +5,8 @@ import { User } from './../user/user';
 import { UserService } from './../user/user.service';
 import { Question } from './question';
 import { QuestionService } from './question.service';
+import { Category } from './category';
+import { CategoryService } from './category.service';
 
 /**
  * Form component to create and edit a questions of a user
@@ -17,13 +19,15 @@ import { QuestionService } from './question.service';
 })
 export class QuestionFormComponent implements OnInit {
     
-    user    : User;
-    question: Question;
+    user      : User;
+    question  : Question;
+    categories: Array<Category>;
 
     constructor(
         private router: Router, 
         private userService: UserService, 
-        private questionService: QuestionService
+        private questionService: QuestionService,
+        private categoryService: CategoryService
     ) { }
 
     /**
@@ -36,6 +40,10 @@ export class QuestionFormComponent implements OnInit {
         this.user     = this.userService.getUserFromLocalStorage();
         this.question = new Question();
         this.question.questioner = this.user._links.self.href;
+        
+        this.categoryService.getCategories().subscribe(
+            categories => this.categories = categories
+        );
     }
 
     /**
