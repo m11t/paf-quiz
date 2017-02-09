@@ -11,7 +11,10 @@ export class QuestionService extends ResponseHandler {
 
     private questionsLink: string = '/api/questions';
 
-    constructor(private http: Http, private messageService: MessageService) {
+    constructor(
+        private http: Http, 
+        private messageService: MessageService
+    ) {
         super();
     }
 
@@ -63,11 +66,11 @@ export class QuestionService extends ResponseHandler {
      * Save a question in the servers database
      * 
      * @param {Question} question to be saved
-     * @returns {Observable} HTTP-Request
+     * @returns {Observable<Question>} HTTP-Request
      * 
      * @memberOf QuestionService
      */
-    public save(question: Question) {
+    public save(question: Question): Observable<Question> {
         let requestHeaders = new Headers({'Content-Type': 'application/json'});
         let requestOptions = new RequestOptions({headers: requestHeaders});
         return this.http

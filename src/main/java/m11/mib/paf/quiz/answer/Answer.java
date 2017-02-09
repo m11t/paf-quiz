@@ -73,5 +73,33 @@ public class Answer {
     public void setCorrect(Boolean isCorrect) {
 	this.isCorrect = isCorrect;
     }
+
+    /**
+     * @return the questionOfAnswer
+     */
+    public Question getQuestionOfAnswer() {
+        return questionOfAnswer;
+    }
+
+    /**
+     * @param questionOfAnswer the questionOfAnswer to set
+     */
+    public void setQuestionOfAnswer(Question questionOfAnswer) {
+        this.questionOfAnswer = questionOfAnswer;
+    }
+
+    /**
+     * @return the results
+     */
+    public List<Result> getResults() {
+        return results;
+    }
+
+    /**
+     * @param results the results to set
+     */
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
     
 }

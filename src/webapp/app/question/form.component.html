@@ -3,7 +3,7 @@
     Back
 </button>
 
-<form #questionForm="ngForm" (ngSubmit)="onSubmit()" >
+<form name="questionForm" id="questionForm" #questionForm="ngForm" (ngSubmit)="onSubmit()" >
 
     <fieldset class="form-block">
         <label>Add a question</label>
@@ -54,7 +54,44 @@
                 </span>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-primary">Create</button>
     </fieldset>
 </form>
+
+<fieldset>
+    <label for="Answer">Answers</label>
+
+    <form name="addAnswerForm" id="addAnswerForm" #addAnswerForm="ngForm" (ngSubmit)="addAnswer()">
+        <div class="form-group row">
+            <div class="col-xs-9">
+                <input type="text" class="form-control" name="QuestionAnswerAdd" id="QuestionAnswerAdd" placeholder="Enter the answer" required [(ngModel)]="answer.text">
+            </div>
+            <div class="col-xs-1">
+                <div class="checkbox">
+                    <input type="checkbox" name="QuestionAnswerCorrectAdd" id="QuestionAnswerCorrectAdd" form="addAnswerForm" [(ngModel)]="answer.correct">
+                    <label for="QuestionAnswerCorrectAdd">Is Correct</label>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <button type="submit" class="col-xs-12 btn btn-sm btn-success-outline" form="addAnswerForm">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="form-group row" *ngFor="let answer of question.answersList; let i = index">
+        <div class="col-xs-9">
+            <input type="text" class="col-xs-12 form-control" name="QuestionAnswer{{i}}" id="QuestionAnswer{{i}}" placeholder="Enter the answer" required [(ngModel)]="answer.text">
+        </div>
+        <div class="col-xs-1">
+            <div class="checkbox">
+                <input type="checkbox" name="QuestionAnswerCorrect{{i}}" id="QuestionAnswerCorrect{{i}}" [(ngModel)]="answer.correct">
+                <label for="QuestionAnswerCorrect{{i}}">Is Correct</label>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <button type="button" class="col-xs-12 btn btn-sm btn-warning-outline" (click)="question.removeAnswer(i)">Remove</button>
+        </div>
+    </div>
+    
+</fieldset>
+
+<button type="submit" form="questionForm" class="btn btn-primary">Create</button>

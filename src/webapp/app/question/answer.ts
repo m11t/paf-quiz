@@ -1,3 +1,5 @@
+import { AnswerLinks } from './answerlinks.interface';
+import { Question } from './question';
 
 /**
  * Class containing specific members and methods for the answer of a question
@@ -7,8 +9,10 @@
  */
 export class Answer {
 
-    private text     : string;
-    private isCorrect: boolean;
+    public text             : string;
+    public correct          : boolean;
+    public questionOfAnswer : string;
+    public _links           : AnswerLinks;
 
     constructor() { }
 }

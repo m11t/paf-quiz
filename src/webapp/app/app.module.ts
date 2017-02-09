@@ -15,6 +15,7 @@ import { RestrictedAreaGuard } from './user/restricted-area.guard';
 import { UserService } from './user/user.service';
 import { QuestionService } from './question/question.service';
 import { CategoryService } from './question/category.service';
+import { AnswerService } from './question/answer.service';
 import { MessageService } from './misc/message.service';
 
 /**
@@ -37,6 +38,7 @@ import { MessageService } from './misc/message.service';
     RestrictedAreaGuard,
     UserService,
     QuestionService,
+    AnswerService,
     CategoryService,
     MessageService
   ],

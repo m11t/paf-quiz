@@ -1,5 +1,7 @@
 package m11.mib.paf.quiz.answer;
 
+import java.util.List;
+
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
