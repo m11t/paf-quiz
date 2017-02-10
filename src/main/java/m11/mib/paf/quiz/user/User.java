@@ -6,14 +6,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.springframework.context.annotation.Lazy;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
 
 import com.auth0.jwt.JWT;
@@ -44,10 +43,10 @@ public class User extends ResourceSupport {
     @Lob
     private byte[] portrait;
     
-    @OneToMany(mappedBy = "resultOfUser")
+    @OneToMany(mappedBy = "resultOfUser", cascade = CascadeType.REMOVE)
     private List<Result> results;
     
-    @OneToMany(mappedBy = "questioner")
+    @OneToMany(mappedBy = "questioner", cascade = CascadeType.REMOVE)
     private List<Question> questions;
     
     @Transient

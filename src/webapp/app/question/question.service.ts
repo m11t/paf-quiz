@@ -81,4 +81,19 @@ export class QuestionService extends ResponseHandler {
                 .map(this.mapJSON)
                 .catch(err => this.handleError(err));
     }
+
+    /**
+     * Remove a question from the server
+     * 
+     * @param {Question} question to be deleted
+     * @returns {Observable<Question>} HTTP-Request
+     * 
+     * @memberOf QuestionService
+     */
+    public remove(question: Question): Observable<Question> {
+        return this.http
+                .delete(question._links.self.href, this.userService.getAuthorizationOptions())
+                .map(this.mapJSON)
+                .catch(err => this.handleError(err))
+    }
 }

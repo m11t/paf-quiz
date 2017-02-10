@@ -2,6 +2,7 @@ package m11.mib.paf.quiz.question;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -45,13 +46,13 @@ public class Question {
     @JoinColumn(name = "questioner")
     private User questioner;
  
-    @OneToMany(mappedBy = "questionOfAnswer")
+    @OneToMany(mappedBy = "questionOfAnswer", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
 
-    @OneToMany(mappedBy = "resultForQuestion")
+    @OneToMany(mappedBy = "resultForQuestion", cascade = CascadeType.REMOVE)
     private List<Result> results;
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
 	name               = "question_categories",
 	joinColumns        = @JoinColumn(name = "question"),
