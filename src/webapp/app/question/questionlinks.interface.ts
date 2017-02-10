@@ -12,4 +12,5 @@ export interface QuestionLinks {
     questioner: Link;
     answers   : Link;
     results   : Link;
+    image     : Link;
 }

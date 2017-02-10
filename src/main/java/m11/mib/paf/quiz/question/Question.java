@@ -11,6 +11,9 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import m11.mib.paf.quiz.answer.Answer;
 import m11.mib.paf.quiz.category.Category;
@@ -36,7 +39,7 @@ public class Question {
     private String text;
     
     @Lob
-    private byte[] image;
+    private String image;
     
     @ManyToOne
     @JoinColumn(name = "questioner")
@@ -55,6 +58,10 @@ public class Question {
 	inverseJoinColumns = @JoinColumn(name = "category")
     )
     private List<Category> isCategorizedBy;
+    
+    @Transient
+    @JsonProperty("id")
+    private Long jsonId;
     
     public Question() {}
     
@@ -76,10 +83,17 @@ public class Question {
      * @param text  the text containing the question
      * @param image the image to support the question
      */
-    public Question(String label, String text, byte[] image) {
+    public Question(String label, String text, String image) {
 	this.setLabel(label);
 	this.setText(text);
 	this.setImage(image);
+    }
+
+    /**
+     * @return the jsonId
+     */
+    public Long getJsonId() {
+        return id;
     }
 
     /**
@@ -113,14 +127,14 @@ public class Question {
     /**
      * @return the image of the question
      */
-    public byte[] getImage() {
+    public String getImage() {
 	return image;
     }
 
     /**
      * @param image the image to support the question
      */
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
 	this.image = image;
     }
 

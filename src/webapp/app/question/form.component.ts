@@ -1,14 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { User } from './../user/user';
 import { UserService } from './../user/user.service';
 import { Question } from './question';
 import { QuestionService } from './question.service';
-import { Category } from './category';
-import { CategoryService } from './category.service';
-import { Answer } from './answer';
-import { AnswerService } from './answer.service';
+import { Category } from './../category/category';
+import { CategoryService } from './../category/category.service';
+import { Answer } from './../answer/answer';
+import { AnswerService } from './../answer/answer.service';
 
 /**
  * Form component to create and edit a questions of a user
@@ -25,6 +25,8 @@ export class QuestionFormComponent implements OnInit {
     question  : Question;
     answer    : Answer;
     categories: Array<Category>;
+
+    @ViewChild('QuestionImage') fileInput: ElementRef;
 
     constructor(
         private router: Router, 
@@ -72,8 +74,14 @@ export class QuestionFormComponent implements OnInit {
                 this.question.answersList.forEach((answer, index) => {
                     answer.questionOfAnswer = question._links.self.href; // ~~~ 2. Update the answers with the link to the question resource
                     this.answerService.save(answer).subscribe();         // ~~~ 3. Save the answers 
-                })
-                this.router.navigate(['/question','list']);
+                });
+
+                let fileInput: HTMLInputElement = this.fileInput.nativeElement; // ~~~ 4. Save the image of the question
+                let formData = new FormData();
+                    formData.append("image", fileInput.files.item(0));
+                this.questionService.saveImage(question._links.image.href, formData).subscribe(questionWithImage => {
+                    this.router.navigate(['/question','list']); // ~~~ 5. Navigate to the list of questions
+                });
             }
         );
     }

@@ -65,4 +65,20 @@ export class QuestionService extends ResponseHandler {
                 .map(this.mapJSON)
                 .catch(err => this.handleError(err));
     }
+
+    /**
+     * Save the image of a question
+     * 
+     * @param {string} link to the repository endpoint to save the image
+     * @param {FormData} formData including the image file
+     * @returns {Observable<Question>} HTTP-Request
+     * 
+     * @memberOf QuestionService
+     */
+    public saveImage(link: string, formData: FormData) {
+        return this.http
+                .post(link, formData, this.userService.getAuthorizationOptions())
+                .map(this.mapJSON)
+                .catch(err => this.handleError(err));
+    }
 }

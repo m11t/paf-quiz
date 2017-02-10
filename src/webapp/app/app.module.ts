@@ -14,8 +14,8 @@ import { PageNotFoundComponent } from './misc/404.component';
 import { RestrictedAreaGuard } from './user/restricted-area.guard';
 import { UserService } from './user/user.service';
 import { QuestionService } from './question/question.service';
-import { CategoryService } from './question/category.service';
-import { AnswerService } from './question/answer.service';
+import { CategoryService } from './category/category.service';
+import { AnswerService } from './answer/answer.service';
 import { MessageService } from './misc/message.service';
 
 /**

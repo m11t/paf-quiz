@@ -14,12 +14,11 @@ import org.springframework.boot.autoconfigure.web.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import m11.mib.paf.quiz.answer.Answer;
 import m11.mib.paf.quiz.category.Category;
 import m11.mib.paf.quiz.category.CategoryRepository;
+import m11.mib.paf.quiz.question.QuestionRepository;
 import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
 
@@ -62,7 +61,8 @@ public class Application {
     public CommandLineRunner demo(
 	    	RepositoryRestConfiguration config,
 	    	UserRepository userRepository,
-	    	CategoryRepository categoryRepository
+	    	CategoryRepository categoryRepository,
+	    	QuestionRepository questionRepository
 	   ) {
 	return (args) -> {
 

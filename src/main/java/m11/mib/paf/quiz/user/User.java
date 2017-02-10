@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
 
 import com.auth0.jwt.JWT;

@@ -1,6 +1,6 @@
 import { User } from './../user/user';
-import { Answer } from './answer';
-import { Category } from './category';
+import { Answer } from './../answer/answer';
+import { Category } from './../category/category';
 import { QuestionLinks } from './questionlinks.interface';
 
 /**

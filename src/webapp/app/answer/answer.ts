@@ -1,5 +1,5 @@
 import { AnswerLinks } from './answerlinks.interface';
-import { Question } from './question';
+import { Question } from './../question/question';
 
 /**
  * Class containing specific members and methods for the answer of a question
