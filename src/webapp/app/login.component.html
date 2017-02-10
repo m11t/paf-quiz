@@ -9,7 +9,7 @@
             <input class="username" type="text" name="userid" id="login_username" placeholder="Username" required [(ngModel)]="user.id" >
             <input class="password" type="password" name="password" id="login_password" placeholder="Password" required [(ngModel)]="user.password" >
             
-            <div class="error" [class.active]="messageService.message">{{messageService.message.message}}</div>
+            <div class="error" [class.active]="messageService.hasMessage">{{messageService.message}}</div>
             
             <button type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid" >LOG IN</button>
             <a class="signup" (click)="toggleSignUp()">Sign up for an account</a>
@@ -25,7 +25,7 @@
             <input class="username" type="text" name="userid" id="signup_username" placeholder="Username" required [(ngModel)]="user.id" >
             <input class="password" type="password" name="password" id="signup_password" placeholder="Password" required [(ngModel)]="user.password" >
             
-            <div class="error" [class.active]="messageService.message !== ''">{{messageService.message}}</div>
+            <div class="error" [class.active]="messageService.hasMessage">{{messageService.message}}</div>
             
             <button type="submit" class="btn btn-primary" [disabled]="!signupForm.form.valid" >SIGN UP</button>
             <a class="signup" (click)="toggleSignUp()" >I already have an account</a>

@@ -17,6 +17,17 @@ export class MessageService {
     }
 
     /**
+     * Readonly Property to determine, whether a message is present
+     * 
+     * @readonly
+     * @type {boolean}
+     * @memberOf MessageService
+     */
+    get hasMessage(): boolean {
+        return this.message !== null;
+    }
+
+    /**
      * Set the next message 
      * 
      * @param {AlertMessage} message

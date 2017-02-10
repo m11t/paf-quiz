@@ -32,6 +32,9 @@ export class AlertMessage {
         this.alertClass = alertClass;
     }
     
+    public toString(): string {
+        return this.message;
+    }
 }
 
 /**
