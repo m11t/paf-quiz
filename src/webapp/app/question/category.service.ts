@@ -3,6 +3,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Category } from './category';
+import { UserService } from './../user/user.service';
 import { MessageService } from './../misc/message.service';
 import { ResponseHandler } from './../misc/responsehandler';
 
@@ -11,23 +12,12 @@ export class CategoryService extends ResponseHandler {
 
     private categoryLink: string = '/api/categories';
 
-    constructor(private http: Http, private messageService: MessageService) {
-        super();
-    }
-
-    /**
-     * Overrides [ResponseHandler.handleError]{@link ResponseHandler#handleError} to additionaly post the message to the global {@link MessageService}
-     * 
-     * @protected
-     * @param {(Response | any)} error
-     * @returns
-     * 
-     * @memberOf UserService
-     */
-    protected handleError(error: Response | any) {
-        let errorMessage = this.getError(error);
-        this.messageService.next(errorMessage);
-        return Observable.throw(errorMessage);
+    constructor(
+        private http: Http,
+        private userService: UserService,
+                messageService: MessageService
+    ) {
+        super(messageService);
     }
 
     /**
@@ -55,7 +45,7 @@ export class CategoryService extends ResponseHandler {
      */
     public getCategories(link: string = this.categoryLink) {
         return this.http
-                .get(link)
+                .get(link, this.userService.getAuthorizationOptions())
                 .map(this.mapJSON)
                 .map(this.mapCategories)
                 .catch(err => this.handleError(err));
@@ -70,8 +60,8 @@ export class CategoryService extends ResponseHandler {
      * @memberOf CategoryService
      */
     public save(category: Category) {
-        let requestHeaders = new Headers({'Content-Type': 'application/json'});
-        let requestOptions = new RequestOptions({headers: requestHeaders});
+        let requestOptions = this.userService.getAuthorizationOptions();
+            requestOptions.headers.append('Content-Type', 'application/json');
         return this.http
                 .post(this.categoryLink, category, requestOptions)
                 .map(this.mapJSON)

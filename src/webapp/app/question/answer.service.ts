@@ -3,6 +3,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Answer } from './answer';
+import { UserService } from './../user/user.service';
 import { MessageService } from './../misc/message.service';
 import { ResponseHandler } from './../misc/responsehandler';
 
@@ -11,23 +12,12 @@ export class AnswerService extends ResponseHandler {
 
     private answersLink: string = '/api/answers';
 
-    constructor(private http: Http, private messageService: MessageService) {
-        super();
-    }
-
-    /**
-     * Overrides [ResponseHandler.handleError]{@link ResponseHandler#handleError} to additionaly post the message to the global {@link MessageService}
-     * 
-     * @protected
-     * @param {(Response | any)} error
-     * @returns
-     * 
-     * @memberOf UserService
-     */
-    protected handleError(error: Response | any) {
-        let errorMessage = this.getError(error);
-        this.messageService.next(errorMessage);
-        return Observable.throw(errorMessage);
+    constructor(
+        private http: Http,
+        private userService: UserService,
+                messageService: MessageService
+    ) {
+        super(messageService);
     }
 
     /**
@@ -53,7 +43,7 @@ export class AnswerService extends ResponseHandler {
      */
     public getAnswers(link: string) {
         return this.http
-                .get(link)
+                .get(link, this.userService.getAuthorizationOptions())
                 .map(this.mapJSON)
                 .map(this.mapAnswers)
                 .catch(err => this.handleError(err));
@@ -68,14 +58,13 @@ export class AnswerService extends ResponseHandler {
      * @memberOf AnswerService
      */
     public save(answer: Answer): Observable<Answer> {
-        let requestHeaders = new Headers({'Content-Type': 'application/json'});
-        let requestOptions = new RequestOptions({headers: requestHeaders});
+        let requestOptions = this.userService.getAuthorizationOptions();
+            requestOptions.headers.append('Content-Type', 'application/json');
         return this.http
                 .post(this.answersLink, answer, requestOptions)
                 .map(this.mapJSON)
                 .catch(err => this.handleError(err));
     }
-
     
     /**
      * Save an answer in the server and return a Promise for it

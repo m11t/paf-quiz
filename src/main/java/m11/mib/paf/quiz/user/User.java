@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 import org.springframework.hateoas.ResourceSupport;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -179,6 +180,21 @@ public class User extends ResourceSupport {
 	    throw new FailedJWTCreationException();
 	}
 	
+	return true;
+    }
+    /**
+     * @param token to be verified
+     * @return whether the token is valid
+     */
+    public boolean verify(String token) {
+	JWTVerifier verifier;
+	try {
+	    verifier = JWT.require(Algorithm.HMAC256(this.password)).build();
+	    verifier.verify(token);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	    return false;
+	}
 	return true;
     }
     /**

@@ -1,6 +1,8 @@
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
 import { MessageService } from './../misc/message.service';
+import { AlertMessage, IRestErrorResponse, RestErrorResponse } from './rest-error-response';
 
 /**
  * Abstract class for handling REST responses
@@ -10,27 +12,36 @@ import { MessageService } from './../misc/message.service';
  */
 export class ResponseHandler {
 
-    protected constructor() { }
+    protected constructor(protected messageService: MessageService) { }
 
     /**
      * Extracts the error message from a REST response and returns it
      * 
      * @protected
      * @param {(Response | any)} error the REST response
-     * @returns {string}               the error message from the server
+     * @returns {AlertMessage} the error message from the server
      * 
      * @memberOf ResponseHandler
      */
-    protected getError(error: Response | any): string {
-       let errorMessage: string;
-
+    protected getError(error: Response | any): AlertMessage {
+        let alert: AlertMessage;
+        let body : any;
+        
         if ( error instanceof Response ) {
-            const body = error.json() || '';
-            errorMessage = body.message || JSON.stringify(body);
+            if ( error.headers.get('Content-Type').includes('json') ) {
+                body = error.json();
+                try {
+                    alert = new RestErrorResponse(body);
+                } catch (error) {
+                    alert = new AlertMessage(JSON.stringify(body), AlertMessage.ALERT_WARNING);
+                }
+            } else {
+                alert = new AlertMessage(error.text(), AlertMessage.ALERT_WARNING);
+            }
         } else {
-            errorMessage = (error.message) ? error.message : error.toString();
+            alert = new AlertMessage(error.toString(), AlertMessage.ALERT_WARNING);
         }
-        return errorMessage;
+        return alert;
      }
 
     /**
@@ -50,12 +61,14 @@ export class ResponseHandler {
      * Error handler for REST responses
      * 
      * @protected
-     * @param {(Response | any)} error      the response from the server
-     * @returns {ErrorObservable<string>}   the error message as an observable
+     * @param {(Response | any)} error          the response from the server
+     * @returns {ErrorObservable<AlertMessage>} the error message as an observable
      * 
      * @memberOf ResponseHandler
      */
     protected handleError(error: Response | any) {
-        return Observable.throw(this.getError(error));
+        let alert: AlertMessage = this.getError(error);
+        this.messageService.next(alert);
+        return Observable.throw(alert);
     }
 }

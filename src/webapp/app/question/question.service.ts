@@ -3,6 +3,7 @@ import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Question } from './question';
+import { UserService } from './../user/user.service';
 import { MessageService } from './../misc/message.service';
 import { ResponseHandler } from './../misc/responsehandler';
 
@@ -12,25 +13,11 @@ export class QuestionService extends ResponseHandler {
     private questionsLink: string = '/api/questions';
 
     constructor(
-        private http: Http, 
-        private messageService: MessageService
+        private http: Http,
+        private userService: UserService,
+                messageService: MessageService
     ) {
-        super();
-    }
-
-    /**
-     * Overrides [ResponseHandler.handleError]{@link ResponseHandler#handleError} to additionaly post the message to the global {@link MessageService}
-     * 
-     * @protected
-     * @param {(Response | any)} error
-     * @returns
-     * 
-     * @memberOf UserService
-     */
-    protected handleError(error: Response | any) {
-        let errorMessage = this.getError(error);
-        this.messageService.next(errorMessage);
-        return Observable.throw(errorMessage);
+        super(messageService);
     }
 
     /**
@@ -56,7 +43,7 @@ export class QuestionService extends ResponseHandler {
      */
     public getQuestions(link: string) {
         return this.http
-                .get(link)
+                .get(link, this.userService.getAuthorizationOptions())
                 .map(this.mapJSON)
                 .map(this.mapQuestions)
                 .catch(err => this.handleError(err));
@@ -71,8 +58,8 @@ export class QuestionService extends ResponseHandler {
      * @memberOf QuestionService
      */
     public save(question: Question): Observable<Question> {
-        let requestHeaders = new Headers({'Content-Type': 'application/json'});
-        let requestOptions = new RequestOptions({headers: requestHeaders});
+        let requestOptions = this.userService.getAuthorizationOptions();
+            requestOptions.headers.append('Content-Type', 'application/json');
         return this.http
                 .post(this.questionsLink, question, requestOptions)
                 .map(this.mapJSON)

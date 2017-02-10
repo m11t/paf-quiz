@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
           )
           .subscribe(
             loggedUser => {
+              this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, loggedUser._links))
               this.userService.getUser(loggedUser._links.self.href)
                 .subscribe(linkingUser => {
                   this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
@@ -84,10 +85,12 @@ export class LoginComponent implements OnInit {
         )
         .subscribe(
           loggedUser => {
+            this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, loggedUser._links))
             this.userService.getUser(loggedUser._links.self.href)
               .subscribe(linkingUser => {
                 this.userService.setUserToLocalStorage(User.createUser(loggedUser.id, loggedUser.token, linkingUser._links))
                 this.showingSignUp = false;
+                this.router.navigate([""]);
               });
           }
         )

@@ -17,23 +17,8 @@ import { MessageService } from './../misc/message.service';
 export class UserService extends ResponseHandler {
     private authURL = "/api/auth";
 
-    constructor(private http: Http, private messageService: MessageService) {
-        super();
-    }
-
-    /**
-     * Overrides [ResponseHandler.handleError]{@link ResponseHandler#handleError} to additionaly post the message to the global {@link MessageService}
-     * 
-     * @protected
-     * @param {(Response | any)} error
-     * @returns
-     * 
-     * @memberOf UserService
-     */
-    protected handleError(error: Response | any) {
-        let errorMessage = this.getError(error);
-        this.messageService.next(errorMessage);
-        return Observable.throw(errorMessage);
+    constructor(private http: Http, messageService: MessageService) {
+        super(messageService);
     }
 
     /**
@@ -46,7 +31,7 @@ export class UserService extends ResponseHandler {
      */
     public getUser(link: string): Observable<User> {
         return this.http
-                .get(link)
+                .get(link, this.getAuthorizationOptions())
                 .map(this.mapJSON)
                 .catch(err => this.handleError(err));
     }
@@ -82,6 +67,20 @@ export class UserService extends ResponseHandler {
      */
     public removeUserFromLocalStorage() {
         localStorage.removeItem('user');
+    }
+
+    /**
+     * Return the authorization token as Headers in a RequestOption for the current user
+     * 
+     * @returns {RequestOptions} request options with authorization header of the current user
+     * 
+     * @memberOf UserService
+     */
+    public getAuthorizationOptions(): RequestOptions {
+        let user = this.getUserFromLocalStorage();
+        let requestHeaders = new Headers({'Authorization': 'Bearer ' + user.token});
+        let requestOptions = new RequestOptions({headers: requestHeaders});
+        return requestOptions;
     }
 
     /**
