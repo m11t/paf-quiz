@@ -16,10 +16,12 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import m11.mib.paf.quiz.category.Category;
+import m11.mib.paf.quiz.answer.AnswerRepository;
+import m11.mib.paf.quiz.category.CategoryInitializer;
 import m11.mib.paf.quiz.category.CategoryRepository;
+import m11.mib.paf.quiz.question.QuestionInitializer;
 import m11.mib.paf.quiz.question.QuestionRepository;
-import m11.mib.paf.quiz.user.User;
+import m11.mib.paf.quiz.user.UserInitializer;
 import m11.mib.paf.quiz.user.UserRepository;
 
 /**
@@ -60,29 +62,26 @@ public class Application {
     @Bean
     public CommandLineRunner demo(
 	    	RepositoryRestConfiguration config,
-	    	UserRepository userRepository,
+	    	AnswerRepository answerRepository,
 	    	CategoryRepository categoryRepository,
-	    	QuestionRepository questionRepository
+	    	QuestionRepository questionRepository,
+	    	UserRepository userRepository
 	   ) {
 	return (args) -> {
+	    // ~~~ Generate users for the quiz
+	    UserInitializer userInitializer = new UserInitializer(userRepository);
+	    userInitializer.initialize();
+	    log.info(userRepository.count() + " users established");
+	    
+	    // ~~~ Generate a few standard categories (Trivial Pursuit)
+	    CategoryInitializer categoryInitializer = new CategoryInitializer(categoryRepository);
+	    categoryInitializer.initialize();
+	    log.info(categoryRepository.count() + " categories established");
 
-	    // ~~~ Generate a couple of users
-	    userRepository.save(new User("M11" , "M11s-Passwort"));
-	    userRepository.save(new User("Lia" , "Lias-Passwort"));
-	    userRepository.save(new User("Gast", "Gast"));
-	    
-	    // ~~~ Logging der angelegten Benutzer
-	    for (User user : userRepository.findAll()) {
-		log.info(user.toString());
-	    }
-	    
-	    // ~~~ Mehrere Standardkategorien (Trivial Pursuit)
-	    categoryRepository.save(new Category("Erdkunde"));
-	    categoryRepository.save(new Category("Unterhaltung"));
-	    categoryRepository.save(new Category("Geschichte"));
-	    categoryRepository.save(new Category("Kunst und Literatur"));
-	    categoryRepository.save(new Category("Wissenschaft und Technik"));
-	    categoryRepository.save(new Category("Sport und Vergnügen"));
+	    // ~~~ Generate a few questions
+	    QuestionInitializer questionInitializer = new QuestionInitializer(answerRepository, categoryRepository, questionRepository, userRepository);
+	    questionInitializer.initialize();
+	    log.info(questionRepository.count() + " questions with " + answerRepository.count() + " answers established");
 	};
     }
 

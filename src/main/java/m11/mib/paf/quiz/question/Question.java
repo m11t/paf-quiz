@@ -80,9 +80,9 @@ public class Question {
     /**
      * Create a new question with a supporting image
      * 
-     * @param label the label for the question
-     * @param text  the text containing the question
-     * @param image the image to support the question
+     * @param label for the question
+     * @param text containing the question
+     * @param image to support the question
      */
     public Question(String label, String text, String image) {
 	this.setLabel(label);
@@ -90,6 +90,23 @@ public class Question {
 	this.setImage(image);
     }
 
+    /**
+     * Create a new question with the full member support
+     * 
+     * @param label for the question
+     * @param text containing the question
+     * @param image to support the question
+     * @param user asking the question
+     * @param categorization of the question
+     */
+    public Question(String label, String text, String image, User user, List<Category> categorization) {
+	this.setLabel(label);
+	this.setText(text);
+	this.setImage(image);
+	this.setQuestioner(user);
+	this.setIsCategorizedBy(categorization);
+    }
+    
     /**
      * @return the jsonId
      */

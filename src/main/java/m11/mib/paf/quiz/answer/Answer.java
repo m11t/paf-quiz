@@ -48,6 +48,19 @@ public class Answer {
 	this.setText(text);
 	this.setCorrect(isCorrect);
     }
+
+    /**
+     * Create a new Answer
+     * 
+     * @param question  question of the answer
+     * @param text      the text for the answer
+     * @param isCorrect whether the answer is correct
+     */
+    public Answer(Question question, String text, Boolean isCorrect) {
+	this.setText(text);
+	this.setCorrect(isCorrect);
+	this.setQuestionOfAnswer(question);
+    }
     
     /**
      * @return the text of the answer
