@@ -8,7 +8,7 @@ import { MessageService } from './../misc/message.service';
  * Application Component
  * 
  * @export
- * @class WrapperComponent
+ * @class MainComponent
  */
 @Component({
   templateUrl: 'app/main/main.component.html',
@@ -28,7 +28,7 @@ export class MainComponent {
      * Log out the current user
      * 
      * 
-     * @memberOf WrapperComponent
+     * @memberOf MainComponent
      */
     public logOut() {
         this.user = this.userService.logOut(this.user);

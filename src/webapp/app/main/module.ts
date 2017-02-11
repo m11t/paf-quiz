@@ -5,6 +5,7 @@ import { QuestionModule } from './../question/module';
 import { MainRoutingModule } from './routes';
 
 import { MainComponent } from './main.component';
+import { HomeComponent } from './home.component';
 import { RestrictedAreaGuard } from './../user/restricted-area.guard';
 
 /**
@@ -19,10 +20,12 @@ import { RestrictedAreaGuard } from './../user/restricted-area.guard';
         MainRoutingModule
     ],
     declarations: [ 
-        MainComponent
+        MainComponent,
+        HomeComponent
     ],
     exports: [
-        MainComponent
+        MainComponent,
+        HomeComponent
     ]
 })
 export class MainModule { }
