@@ -21,6 +21,19 @@ export class QuestionService extends ResponseHandler {
     }
 
     /**
+     * Return the serialized Question from a server response
+     * 
+     * @private
+     * @param {*} response to be converted
+     * @returns {Question} question object created from the response
+     * 
+     * @memberOf QuestionService
+     */
+    private mapQuestion(response: any): Question {
+        return new Question(response);
+    }
+
+    /**
      * Returns the list of questions from a Server HAL response
      * 
      * @private
@@ -31,6 +44,22 @@ export class QuestionService extends ResponseHandler {
      */
     private mapQuestions(response: any) {
         return response._embedded.questions;
+    }
+
+    /**
+     * Returns an observable for the http request to a question resource
+     * 
+     * @param {string} link         link to the question resource
+     * @returns {Observable<User>}  HTTP-Request-Observable
+     * 
+     * @memberOf QuestionService
+     */
+    public getQuestion(link: string): Observable<Question> {
+        return this.http
+                .get(link, this.userService.getAuthorizationOptions())
+                .map(this.mapJSON)
+                .map(this.mapQuestion)
+                .catch(err => this.handleError(err));
     }
 
     /**

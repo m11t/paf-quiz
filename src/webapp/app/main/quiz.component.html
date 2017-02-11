@@ -1,0 +1,34 @@
+<div *ngIf="question">
+    <!-- Card with the label, image and text of the question -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    {{question.label}}
+                </div>
+                <div class="card-img">
+                    <img src="{{question.image}}">
+                </div>
+                <div class="card-block">
+                    <div class="card-text">
+                        <p>
+                            {{question.text}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6" *ngFor="let answer of question.answersList; let i = index">
+            <a class="card clickable" (click)="choose(i)">
+                <div class="card-header">
+                    {{answer.text}}
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="confirm()">Confirm</button>
+</div>

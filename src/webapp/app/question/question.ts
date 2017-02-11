@@ -22,7 +22,12 @@ export class Question {
     public   categorisation : Array<Category> = [];
     readonly _links         : QuestionLinks;
 
-    constructor() { }
+    constructor(question: any = {}) {
+        this.id     = question.id     || null;
+        this.label  = question.label  || "";
+        this.text   = question.text   || "";
+        this._links = question._links || null;
+     }
 
     /**
      * Is a category already part of the categorisation list?
@@ -50,6 +55,20 @@ export class Question {
      */
     public addAnswer(answer: Answer) {
         this.answersList.push(answer);
+    }
+
+    /**
+     * Set the answers of this question
+     * 
+     * @param {Array<Answer>} answers to be set
+     * 
+     * @memberOf Question
+     */
+    public setAnswers(answers: Array<Answer>) {
+        this.answersList.splice(0);
+        answers.forEach((answer, index) => {
+            this.addAnswer(answer);
+        });
     }
 
     /**

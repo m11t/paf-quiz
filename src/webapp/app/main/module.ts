@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ClarityModule } from 'clarity-angular';
 
@@ -6,6 +7,7 @@ import { MainRoutingModule } from './routes';
 
 import { MainComponent } from './main.component';
 import { HomeComponent } from './home.component';
+import { QuizComponent } from './quiz.component';
 import { RestrictedAreaGuard } from './../user/restricted-area.guard';
 
 /**
@@ -16,16 +18,19 @@ import { RestrictedAreaGuard } from './../user/restricted-area.guard';
  */
 @NgModule({
     imports: [
+        CommonModule,
         ClarityModule.forChild(),
         MainRoutingModule
     ],
     declarations: [ 
         MainComponent,
-        HomeComponent
+        HomeComponent,
+        QuizComponent
     ],
     exports: [
         MainComponent,
-        HomeComponent
+        HomeComponent,
+        QuizComponent
     ]
 })
 export class MainModule { }
