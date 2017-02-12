@@ -39,7 +39,7 @@ public class Result {
 	joinColumns        = @JoinColumn(name = "result"),
 	inverseJoinColumns = @JoinColumn(name = "category")
     )
-    private List<Category> categories;
+    private List<Category> categoriesOfResult;
     
     public Result() {}
 
@@ -55,6 +55,34 @@ public class Result {
      */
     public void setCorrect(boolean isCorrect) {
 	this.correct = isCorrect;
+    }
+
+    /**
+     * @return the userOfResult
+     */
+    public User getUserOfResult() {
+        return userOfResult;
+    }
+
+    /**
+     * @param userOfResult the userOfResult to set
+     */
+    public void setUserOfResult(User userOfResult) {
+        this.userOfResult = userOfResult;
+    }
+
+    /**
+     * @return the categoriesOfResult
+     */
+    public List<Category> getCategoriesOfResult() {
+        return categoriesOfResult;
+    }
+
+    /**
+     * @param categoriesOfResult the categoriesOfResult to set
+     */
+    public void setCategoriesOfResult(List<Category> categoriesOfResult) {
+        this.categoriesOfResult = categoriesOfResult;
     };
     
 }

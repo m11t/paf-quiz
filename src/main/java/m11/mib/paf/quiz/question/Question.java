@@ -54,7 +54,7 @@ public class Question {
 	joinColumns        = @JoinColumn(name = "question"),
 	inverseJoinColumns = @JoinColumn(name = "category")
     )
-    private List<Category> isCategorizedBy;
+    private List<Category> categoriesOfQuestion;
     
     @Transient
     @JsonProperty("id")
@@ -100,7 +100,7 @@ public class Question {
 	this.setText(text);
 	this.setImage(image);
 	this.setQuestioner(user);
-	this.setIsCategorizedBy(categorization);
+	this.setCategoriesOfQuestion(categorization);
     }
     
     /**
@@ -181,17 +181,17 @@ public class Question {
     }
 
     /**
-     * @return the isCategorizedBy
+     * @return the categoriesOfQuestion
      */
-    public List<Category> getIsCategorizedBy() {
-        return isCategorizedBy;
+    public List<Category> getCategoriesOfQuestion() {
+        return categoriesOfQuestion;
     }
 
     /**
-     * @param isCategorizedBy the isCategorizedBy to set
+     * @param categoriesOfQuestion the categoriesOfQuestion to set
      */
-    public void setIsCategorizedBy(List<Category> isCategorizedBy) {
-        this.isCategorizedBy = isCategorizedBy;
+    public void setCategoriesOfQuestion(List<Category> categoriesOfQuestion) {
+        this.categoriesOfQuestion = categoriesOfQuestion;
     }
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import m11.mib.paf.quiz.question.Question;
+import m11.mib.paf.quiz.result.Result;
 
 /**
  * MT \ 12.01.2017 \ Category
@@ -27,8 +28,11 @@ public class Category {
     @JsonProperty("name")
     private String jsonName;
     
-    @ManyToMany(mappedBy = "isCategorizedBy")
+    @ManyToMany(mappedBy = "categoriesOfQuestion")
     private List<Question> questions;
+
+    @ManyToMany(mappedBy = "categoriesOfResult")
+    private List<Result> results;
     
     public Category() {}
     

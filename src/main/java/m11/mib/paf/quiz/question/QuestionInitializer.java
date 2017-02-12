@@ -38,32 +38,10 @@ public class QuestionInitializer {
     }
     
     private Question create(String categoryName, String text, User questioner) {
-	String         categoryImage = "";
+	String         categoryImage = CategoryInitializer.getImageFor(categoryName);
 	Category       category      = categoryRepository.findOne(categoryName);
 	List<Category> categoryList  = new ArrayList<Category>();
 	categoryList.add(category);
-	
-	switch (categoryName) {
-	case CategoryInitializer.GEOGRAPHY:
-	    categoryImage = CategoryInitializer.getGeographyImage();
-	    break;
-	case CategoryInitializer.ENTERTAINMENT:
-	    categoryImage = CategoryInitializer.getEntertainmentImage();
-	    break;
-	case CategoryInitializer.HISTORY:
-	    categoryImage = CategoryInitializer.getHistoryImage();
-	    break;
-	case CategoryInitializer.ART_AND_LITERATURE:
-	    categoryImage = CategoryInitializer.getArtsAndLiteratureImage();
-	    break;
-	case CategoryInitializer.SCIENCE_AND_NATURE:
-	    categoryImage = CategoryInitializer.getScienceAndNatureImage();
-	    break;
-	case CategoryInitializer.SPORT_AND_LEISURE:
-	    categoryImage = CategoryInitializer.getSportAndLeisureImage();
-	    break;
-	}
-	
 	return questionRepository.save(new Question(categoryName, text, categoryImage, questioner, categoryList));
     }
     

@@ -9,5 +9,6 @@ import { Link } from './../misc/link.interface';
 export interface CategoryLinks {
     self     : Link;
     category : Link;
-    questions: Link; 
+    questions: Link;
+    results  : Link; 
 }

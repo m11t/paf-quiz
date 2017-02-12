@@ -19,7 +19,7 @@ export class Question {
     readonly answers        : Array<string> = [];
     readonly answersList    : Array<Answer> = [];
     //public results        : Array;
-    readonly isCategorizedBy: Array<string>   = [];
+    readonly categoriesOfQuestion: Array<string>   = [];
     public   categorisation : Array<Category> = [];
     readonly _links         : QuestionLinks;
 
@@ -111,7 +111,7 @@ export class Question {
         if ( this.containsCategory(category) ) {
             return;
         }
-        this.isCategorizedBy.push(category._links.self.href);
+        this.categoriesOfQuestion.push(category._links.self.href);
         this.categorisation.push(category);
     }
 
@@ -124,7 +124,7 @@ export class Question {
      * @memberOf Question
      */
     public removeCategory(index: number): Array<Category> {
-        this.isCategorizedBy.splice(index,1);
+        this.categoriesOfQuestion.splice(index,1);
         return this.categorisation.splice(index,1);
     }
 

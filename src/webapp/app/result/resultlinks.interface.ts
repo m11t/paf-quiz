@@ -7,9 +7,8 @@ import { Link } from './../misc/link.interface';
  * @interface ResultLinks
  */
 export interface ResultLinks {
-    self             : Link;
-    result           : Link;
-    resultOfUser     : Link;
-    resultForQuestion: Link; 
-    givenAnswers     : Link;
+    self              : Link;
+    result            : Link;
+    userOfResult      : Link;
+    categoriesOfResult: Link; 
 }

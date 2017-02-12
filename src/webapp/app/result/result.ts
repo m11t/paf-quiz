@@ -11,12 +11,12 @@ import { ResultLinks } from './resultlinks.interface';
  */
 export class Result {
 
-    public   id           : number;
-    public   correct      : boolean;
-    public   userOfResult : User | string;
-    public   categories   : Array<Category | string> = [];
-    readonly answers      : Array<Answer | string> = [];
-    readonly _links       : ResultLinks;
+    public   id                : number;
+    public   correct           : boolean;
+    public   userOfResult      : User | string;
+    public   categoriesOfResult: Array<Category | string> = [];
+    readonly answers           : Array<Answer | string> = [];
+    readonly _links            : ResultLinks;
 
     constructor(result: any = {}) {
         this.id        = result.id || null;
@@ -38,7 +38,7 @@ export class Result {
         if ( this.userOfResult instanceof User ) {
             this.userOfResult = this.userOfResult._links.self.href;
         }
-        this.categories = this.categories.map((category) => {
+        this.categoriesOfResult = this.categoriesOfResult.map((category) => {
             if ( category instanceof Category ) {
                 return category._links.self.href;
             }
@@ -95,7 +95,7 @@ export class Result {
      * @memberOf Result
      */
     public addCategory(category: Category) {
-        this.categories.push(category);
+        this.categoriesOfResult.push(category);
     }
 
     /**
@@ -106,7 +106,7 @@ export class Result {
      * @memberOf Result
      */
     public setCategories(categories: Array<Category>) {
-        this.categories.splice(0);
+        this.categoriesOfResult.splice(0);
         categories.forEach(category => {
             this.addCategory(category);
         });

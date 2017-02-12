@@ -51,7 +51,7 @@ export class QuizComponent implements OnInit {
                 this.answerService.getAnswers(question._links.answers.href).subscribe(answers => {
                     this.question.setAnswers(answers);
                 });
-                this.categoryService.getCategories(question._links.isCategorizedBy.href).subscribe(categories => {
+                this.categoryService.getCategories(question._links.categoriesOfQuestion.href).subscribe(categories => {
                     this.result.setCategories(categories);
                 });
             });

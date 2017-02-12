@@ -24,6 +24,28 @@ public class CategoryInitializer {
 	   ) {
 	this.categoryRepository = categoryRepository;
     }
+
+    /**
+     * @param categoryName for which the standard image is wanted
+     * @return the standard image of the given category name
+     */
+    public static String getImageFor(String categoryName) {
+	switch (categoryName) {
+	case CategoryInitializer.GEOGRAPHY:
+	    return CategoryInitializer.getGeographyImage();
+	case CategoryInitializer.ENTERTAINMENT:
+	    return CategoryInitializer.getEntertainmentImage();
+	case CategoryInitializer.HISTORY:
+	    return CategoryInitializer.getHistoryImage();
+	case CategoryInitializer.ART_AND_LITERATURE:
+	    return CategoryInitializer.getArtsAndLiteratureImage();
+	case CategoryInitializer.SCIENCE_AND_NATURE:
+	    return CategoryInitializer.getScienceAndNatureImage();
+	case CategoryInitializer.SPORT_AND_LEISURE:
+	    return CategoryInitializer.getSportAndLeisureImage();
+	}
+	return "";
+    }
     
     /**
      * @return the image for geography questions as base64 string
