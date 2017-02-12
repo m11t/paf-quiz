@@ -1,0 +1,19 @@
+<h2>Your statistics</h2>
+
+<div *ngFor="let stat of stats">
+    <h4>{{stat.name}}</h4>
+    <div class="progress-block">
+        <label class="col-xs-4 col-sm-3 col-md-2 col-xl-1">{{user.id}}</label>
+        <div class="progress col-xs-6 col-sm-7 col-md-9 col-xl-10">
+            <progress value="{{stat.user}}" max="1"></progress>
+        </div>
+        <span class="col-xs-2 col-md-1">{{stat.user * 100 | number : '1.2-2'}}%</span>
+    </div>
+    <div class="progress-block">
+        <label class="col-xs-4 col-sm-3 col-md-2 col-xl-1">Mean value</label>
+        <div class="progress danger col-xs-6 col-sm-7 col-md-9 col-xl-10">
+            <progress value="{{stat.mean}}" max="1"></progress>
+        </div>
+        <span class="col-xs-2 col-md-1">{{stat.mean * 100 | number : '1.2-2'}}%</span>
+    </div>
+</div>

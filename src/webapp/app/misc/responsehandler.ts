@@ -45,7 +45,7 @@ export class ResponseHandler {
      }
 
     /**
-     * Extracts the actual data of a REST response
+     * Extracts the actual data of a REST response as JSON
      * 
      * @protected
      * @param {Response} response   the REST response
@@ -55,6 +55,32 @@ export class ResponseHandler {
      */
     protected mapJSON(response: Response) {
         return response.json() || {};
+    }
+
+    /**
+     * Extracts the actual data of a REST response as string
+     * 
+     * @protected
+     * @param {Response} response   the REST response
+     * @returns {string}            the actual data returned from the server
+     * 
+     * @memberOf ResponseHandler
+     */
+    protected mapText(response: Response): string {
+        return response.text();
+    }
+
+    /**
+     * Extracts the actual data of a REST response as number
+     * 
+     * @protected
+     * @param {Response} response   the REST response
+     * @returns {number}            the actual data returned from the server
+     * 
+     * @memberOf ResponseHandler
+     */
+    protected mapNumber(response: Response): number {
+        return Number.parseInt(response.text());
     }
 
     /**

@@ -24,5 +24,6 @@ public class UserInitializer {
     public void initialize() {
     	userRepository.save(new User("Moderator", "Moderator"));
     	userRepository.save(new User("Player", "Player"));
+    	userRepository.save(new User("Hater", "Hater"));
     }
 }

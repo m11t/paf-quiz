@@ -8,6 +8,7 @@ import { MainRoutingModule } from './routes';
 import { MainComponent } from './main.component';
 import { HomeComponent } from './home.component';
 import { QuizComponent } from './quiz.component';
+import { StatComponent } from './stat.component';
 import { RestrictedAreaGuard } from './../user/restricted-area.guard';
 
 /**
@@ -25,12 +26,14 @@ import { RestrictedAreaGuard } from './../user/restricted-area.guard';
     declarations: [ 
         MainComponent,
         HomeComponent,
-        QuizComponent
+        QuizComponent,
+        StatComponent
     ],
     exports: [
         MainComponent,
         HomeComponent,
-        QuizComponent
+        QuizComponent,
+        StatComponent
     ]
 })
 export class MainModule { }

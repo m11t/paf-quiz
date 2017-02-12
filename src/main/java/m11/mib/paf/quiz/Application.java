@@ -21,6 +21,8 @@ import m11.mib.paf.quiz.category.CategoryInitializer;
 import m11.mib.paf.quiz.category.CategoryRepository;
 import m11.mib.paf.quiz.question.QuestionInitializer;
 import m11.mib.paf.quiz.question.QuestionRepository;
+import m11.mib.paf.quiz.result.ResultInitializer;
+import m11.mib.paf.quiz.result.ResultRepository;
 import m11.mib.paf.quiz.user.UserInitializer;
 import m11.mib.paf.quiz.user.UserRepository;
 
@@ -65,6 +67,7 @@ public class Application {
 	    	AnswerRepository answerRepository,
 	    	CategoryRepository categoryRepository,
 	    	QuestionRepository questionRepository,
+	    	ResultRepository resultRepository,
 	    	UserRepository userRepository
 	   ) {
 	return (args) -> {
@@ -82,6 +85,11 @@ public class Application {
 	    QuestionInitializer questionInitializer = new QuestionInitializer(answerRepository, categoryRepository, questionRepository, userRepository);
 	    questionInitializer.initialize();
 	    log.info(questionRepository.count() + " questions with " + answerRepository.count() + " answers established");
+
+	    // ~~~ Generate a few results
+	    ResultInitializer resultInitializer = new ResultInitializer(categoryRepository, resultRepository, userRepository);
+	    resultInitializer.initialize();
+	    log.info(resultRepository.count() + " results established");
 	};
     }
 

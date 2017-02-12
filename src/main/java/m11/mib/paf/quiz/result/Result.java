@@ -42,6 +42,12 @@ public class Result {
     private List<Category> categoriesOfResult;
     
     public Result() {}
+    
+    public Result(User user, List<Category> categories, boolean isCorrect) {
+	this.setUserOfResult(user);
+	this.setCategoriesOfResult(categories);
+	this.setCorrect(isCorrect);
+    }
 
     /**
      * @return Whether the result is correct

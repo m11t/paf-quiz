@@ -43,7 +43,7 @@ export class CategoryService extends ResponseHandler {
      * 
      * @memberOf CategoryService
      */
-    public getCategories(link: string = this.categoryLink) {
+    public getCategories(link: string = this.categoryLink): Observable<Array<Category>> {
         return this.http
                 .get(link, this.userService.getAuthorizationOptions())
                 .map(this.mapJSON)

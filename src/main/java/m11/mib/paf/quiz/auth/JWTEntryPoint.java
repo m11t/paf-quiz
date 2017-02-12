@@ -1,7 +1,6 @@
 package m11.mib.paf.quiz.auth;
 
 import java.io.IOException;
-import java.util.Collections;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
