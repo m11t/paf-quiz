@@ -43,7 +43,9 @@ export class QuestionService extends ResponseHandler {
      * @memberOf QuestionService
      */
     private mapQuestions(response: any) {
-        return response._embedded.questions;
+        return response._embedded.questions.map(
+            (question: any) => new Question(question)
+        );
     }
 
     /**

@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import m11.mib.paf.quiz.answer.Answer;
 import m11.mib.paf.quiz.category.Category;
-import m11.mib.paf.quiz.result.Result;
 import m11.mib.paf.quiz.user.User;
 
 import javax.persistence.JoinColumn;
@@ -49,9 +48,6 @@ public class Question {
     @OneToMany(mappedBy = "questionOfAnswer", cascade = CascadeType.REMOVE)
     private List<Answer> answers;
 
-    @OneToMany(mappedBy = "resultForQuestion", cascade = CascadeType.REMOVE)
-    private List<Result> results;
-    
     @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
 	name               = "question_categories",
@@ -182,20 +178,6 @@ public class Question {
      */
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
-
-    /**
-     * @return the results
-     */
-    public List<Result> getResults() {
-        return results;
-    }
-
-    /**
-     * @param results the results to set
-     */
-    public void setResults(List<Result> results) {
-        this.results = results;
     }
 
     /**

@@ -12,11 +12,12 @@ import { LoginComponent } from './login.component';
 import { PageNotFoundComponent } from './misc/404.component';
 
 import { RestrictedAreaGuard } from './user/restricted-area.guard';
-import { UserService } from './user/user.service';
-import { QuestionService } from './question/question.service';
-import { CategoryService } from './category/category.service';
 import { AnswerService } from './answer/answer.service';
+import { CategoryService } from './category/category.service';
 import { MessageService } from './misc/message.service';
+import { QuestionService } from './question/question.service';
+import { ResultService } from './result/result.service';
+import { UserService } from './user/user.service';
 
 /**
  * Application Module
@@ -36,11 +37,12 @@ import { MessageService } from './misc/message.service';
   ],
   providers: [
     RestrictedAreaGuard,
-    UserService,
-    QuestionService,
     AnswerService,
     CategoryService,
-    MessageService
+    MessageService,
+    QuestionService,
+    ResultService,
+    UserService
   ],
   declarations: [ 
     AppComponent,

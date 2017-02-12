@@ -1,17 +1,13 @@
 package m11.mib.paf.quiz.answer;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import m11.mib.paf.quiz.question.Question;
-import m11.mib.paf.quiz.result.Result;
 
 /**
  * MT \ 12.01.2017 \ Answer
@@ -32,9 +28,6 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "question")
     private Question questionOfAnswer;
-
-    @ManyToMany(mappedBy = "givenAnswers")
-    private List<Result> results;
     
     public Answer() {}
     
@@ -99,20 +92,6 @@ public class Answer {
      */
     public void setQuestionOfAnswer(Question questionOfAnswer) {
         this.questionOfAnswer = questionOfAnswer;
-    }
-
-    /**
-     * @return the results
-     */
-    public List<Result> getResults() {
-        return results;
-    }
-
-    /**
-     * @param results the results to set
-     */
-    public void setResults(List<Result> results) {
-        this.results = results;
     }
     
 }

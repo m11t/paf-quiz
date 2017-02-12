@@ -43,7 +43,7 @@ public class User extends ResourceSupport {
     @Lob
     private byte[] portrait;
     
-    @OneToMany(mappedBy = "resultOfUser", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "userOfResult", cascade = CascadeType.REMOVE)
     private List<Result> results;
     
     @OneToMany(mappedBy = "questioner", cascade = CascadeType.REMOVE)

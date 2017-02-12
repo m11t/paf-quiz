@@ -9,5 +9,4 @@ import { Link } from './../misc/link.interface';
 export interface AnswerLinks {
     self    : Link;
     answer  : Link;
-    results : Link; 
 }

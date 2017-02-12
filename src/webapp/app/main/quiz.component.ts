@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { Answer } from './../answer/answer';
 import { AnswerService } from './../answer/answer.service';
+import { Category } from './../category/category';
+import { CategoryService } from './../category/category.service';
 import { Question } from './../question/question';
 import { QuestionService } from './../question/question.service';
 import { Result } from './../result/result';
+import { ResultService } from './../result/result.service';
 import { User } from './../user/user';
 import { UserService } from './../user/user.service';
 import { MessageService } from './../misc/message.service';
@@ -26,7 +29,9 @@ export class QuizComponent implements OnInit {
 
     constructor(
         public answerService: AnswerService,
+        public categoryService: CategoryService,
         public questionService: QuestionService,
+        public resultService: ResultService,
         public userService: UserService
     ) {  }
 
@@ -38,13 +43,16 @@ export class QuizComponent implements OnInit {
      * @memberOf QuizComponent
      */
     private getRandomQuestion() {
+        this.result = new Result();
+        this.result.userOfResult = this.user;
         this.questionService.getQuestion("/api/quiz").subscribe(quiz => {
             this.questionService.getQuestion(quiz._links.question.href).subscribe(question => {
+                this.question = question;
                 this.answerService.getAnswers(question._links.answers.href).subscribe(answers => {
-                    question.setAnswers(answers);
-                    this.question = question;
-                    this.result.resultForQuestion = question;
-                    this.result.resultOfUser      = this.user;
+                    this.question.setAnswers(answers);
+                });
+                this.categoryService.getCategories(question._links.isCategorizedBy.href).subscribe(categories => {
+                    this.result.setCategories(categories);
                 });
             });
         });
@@ -57,8 +65,7 @@ export class QuizComponent implements OnInit {
      * @memberOf QuizComponent
      */
     public ngOnInit() {
-        this.result = new Result();
-        this.user   = this.userService.getUserFromLocalStorage();
+        this.user = this.userService.getUserFromLocalStorage();
         this.getRandomQuestion();
     }
 
@@ -71,7 +78,7 @@ export class QuizComponent implements OnInit {
      */
     public choose(answer: Answer) {
         if ( this.chosen(answer) ) {
-            this.result.removeAnswer(this.result.givenAnswers.indexOf(answer));
+            this.result.removeAnswer(this.result.answers.indexOf(answer));
             return;
         }
         this.result.addAnswer(answer);
@@ -86,6 +93,17 @@ export class QuizComponent implements OnInit {
      * @memberOf QuizComponent
      */
     public chosen(answer: Answer): boolean {
-        return this.result.givenAnswers.indexOf(answer) >= 0;
+        return this.result.answers.indexOf(answer) >= 0;
+    }
+
+    /**
+     * Confirm the choices and save the result in the database
+     * 
+     * @memberOf QuizComponent
+     */
+    public confirm() {
+        this.resultService.save(this.result.preparedForSave()).delay(3000).subscribe(result => {
+            this.getRandomQuestion();
+        });
     }
 }

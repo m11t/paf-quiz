@@ -11,7 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import m11.mib.paf.quiz.question.Question;
+import m11.mib.paf.quiz.category.Category;
 import m11.mib.paf.quiz.user.User;
 
 /**
@@ -27,23 +27,19 @@ public class Result {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean isCorrect;
+    private Boolean correct;
     
     @ManyToOne
     @JoinColumn(name = "user")
-    private User resultOfUser;
+    private User userOfResult;
     
-    @ManyToOne
-    @JoinColumn(name = "question")
-    private Question resultForQuestion;
-
     @ManyToMany
     @JoinTable(
-	name               = "result_answers",
+	name               = "result_categories",
 	joinColumns        = @JoinColumn(name = "result"),
-	inverseJoinColumns = @JoinColumn(name = "answer")
+	inverseJoinColumns = @JoinColumn(name = "category")
     )
-    private List<Result> givenAnswers;
+    private List<Category> categories;
     
     public Result() {}
 
@@ -51,14 +47,14 @@ public class Result {
      * @return Whether the result is correct
      */
     public boolean isCorrect() {
-	return isCorrect;
+	return correct;
     }
 
     /**
      * @param isCorrect Whether the result was correct
      */
     public void setCorrect(boolean isCorrect) {
-	this.isCorrect = isCorrect;
+	this.correct = isCorrect;
     };
     
 }
