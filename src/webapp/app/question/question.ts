@@ -14,6 +14,7 @@ export class Question {
     public   id             : number;
     public   label          : string;
     public   text           : string;
+    public   image          : string;
     public   questioner     : string;
     readonly answers        : Array<string> = [];
     readonly answersList    : Array<Answer> = [];
@@ -26,6 +27,7 @@ export class Question {
         this.id     = question.id     || null;
         this.label  = question.label  || "";
         this.text   = question.text   || "";
+        this.image  = question.image  || "";
         this._links = question._links || null;
      }
 
