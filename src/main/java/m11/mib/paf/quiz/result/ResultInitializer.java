@@ -67,12 +67,14 @@ public class ResultInitializer {
     public void initialize() {
 	Iterable<Category> categories = this.categoryRepository.findAll();
 	
-	User player = this.userRepository.findOne("Player");
-	User hater  = this.userRepository.findOne("Hater");
+	User rookie = this.userRepository.findOne("Rookie");
+	User pro    = this.userRepository.findOne("Pro");
 	
 	for (Category category : categories) {
-	    this.createResultsFor(player, category);
-	    this.createResultsFor(hater, category);
+	    this.createResultsFor(rookie, category);
+	    this.createResultsFor(pro, category);
+	    this.createResultsFor(pro, category);
+	    this.createResultsFor(pro, category);
 	}
     }
 

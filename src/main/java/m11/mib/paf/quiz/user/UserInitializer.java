@@ -19,11 +19,12 @@ public class UserInitializer {
      * Initialize the Users in the database
      * There are two standard users:
      * 	Moderator - Has asked a mutlitude of questions
-     * 	Player - Has answered a few questions
+     * 	Rookie - Has some results
+     *  Pro - Has some mor results
      */
     public void initialize() {
     	userRepository.save(new User("Moderator", "Moderator"));
-    	userRepository.save(new User("Player", "Player"));
-    	userRepository.save(new User("Hater", "Hater"));
+    	userRepository.save(new User("Rookie", "Rookie"));
+    	userRepository.save(new User("Pro", "Pro"));
     }
 }
