@@ -3,6 +3,20 @@
     End Quiz
 </button>
 
+<!-- Display the expired time -->
+<div class="progress progress-fade"><progress max="15" value="{{expired}}"></progress></div>
+
+<!-- Display the success of the answering -->
+<div *ngIf="messageService.hasMessage">
+    <div class="alert {{messageService.message.alertClass}}">
+        <div class="alert-item">
+            <span class="alert-text">
+                {{messageService.message.message}}
+            </span>
+        </div>
+    </div>
+</div>
+
 <div *ngIf="question">
     <div class="card-columns card-columns-2" *ngIf="question">
         <!-- Card with the label, image and text of the question -->

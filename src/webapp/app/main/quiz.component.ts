@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Answer } from './../answer/answer';
 import { AnswerService } from './../answer/answer.service';
@@ -21,11 +21,15 @@ import { MessageService } from './../misc/message.service';
 @Component({
   templateUrl: 'app/main/quiz.component.html'
 })
-export class QuizComponent implements OnInit {
+export class QuizComponent implements OnInit, OnDestroy {
 
-    user    : User;
-    question: Question;
-    result  : Result;
+    timeout       : number;
+    interval      : number;
+    expired       : number = 0;
+    user          : User;
+    question      : Question;
+    result        : Result;
+    messageService: MessageService;
 
     constructor(
         public answerService: AnswerService,
@@ -33,7 +37,9 @@ export class QuizComponent implements OnInit {
         public questionService: QuestionService,
         public resultService: ResultService,
         public userService: UserService
-    ) {  }
+    ) { 
+        this.messageService = new MessageService();
+     }
 
     /**
      * Get a random question
@@ -43,8 +49,15 @@ export class QuizComponent implements OnInit {
      * @memberOf QuizComponent
      */
     private getRandomQuestion() {
+        // ~~~ Set up a timeout of 15 seconds to answer the question
+        this.timeout = setTimeout( () => { this.confirm() }, 15000);
+        this.interval = setInterval( () => { this.expired++; }, 1000);
+
+        // ~~~ Prepare the result
         this.result = new Result();
         this.result.userOfResult = this.user;
+
+        // ~~~ Get a random question
         this.questionService.getQuestion("/api/quiz").subscribe(quiz => {
             this.questionService.getQuestion(quiz._links.question.href).subscribe(question => {
                 this.question = question;
@@ -67,6 +80,18 @@ export class QuizComponent implements OnInit {
     public ngOnInit() {
         this.user = this.userService.getUserFromLocalStorage();
         this.getRandomQuestion();
+    }
+
+    /**
+     * Lifecycle-Hook for destruction of the component
+     * The timout is cleared.
+     * 
+     * @memberOf QuizComponent
+     */
+    public ngOnDestroy() {
+        clearTimeout(this.timeout);
+        clearInterval(this.interval);
+        this.expired = 0;
     }
 
     /**
@@ -102,7 +127,20 @@ export class QuizComponent implements OnInit {
      * @memberOf QuizComponent
      */
     public confirm() {
-        this.resultService.save(this.result.preparedForSave()).delay(3000).subscribe(result => {
+        // ~~~ Disable the timeout
+        clearTimeout(this.timeout);
+
+        // ~~~ Prepare the result for posting to server and display a hint for the user
+        let result = this.result.preparedForSave();
+        if ( result.correct ) {
+            this.messageService.nextSuccess("Your answer is correct!");
+        } else {
+            this.messageService.nextError("Your answer is wrong");
+        }
+
+        // ~~~ Save the result
+        this.resultService.save(result).delay(3000).subscribe(result => {
+            this.expired = 0;
             this.getRandomQuestion();
         });
     }
