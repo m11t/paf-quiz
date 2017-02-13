@@ -48,8 +48,8 @@ export class StatComponent implements OnInit {
                 ).subscribe( counts => {
                     this.stats[index] = {
                         name: category.name, 
-                        user: counts[1] / counts[0],
-                        mean: counts[3] / counts[2]
+                        user: counts[1] / counts[0] || 0,
+                        mean: counts[3] / counts[2] || 0
                     };
                 });
             });
