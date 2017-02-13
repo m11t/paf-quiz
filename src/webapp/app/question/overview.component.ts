@@ -49,7 +49,7 @@ export class QuestionOverviewComponent implements OnInit {
      * 
      * @memberOf QuestionOverviewComponent
      */
-    public removeImage(question: Question) {
+    public remove(question: Question) {
         this.questionService.remove(question).subscribe(deleted => {
             this.messageService.nextSuccess("The question was successfully deleted!");
             this.questionService.getQuestions(this.user._links.questions.href).subscribe(

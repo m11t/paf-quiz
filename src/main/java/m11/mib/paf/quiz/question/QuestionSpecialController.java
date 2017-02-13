@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import m11.mib.paf.quiz.category.CategoryInitializer;
+import m11.mib.paf.quiz.category.CategoryImageProvider;
 
 /**
  * QuestionSpecialController
@@ -47,7 +47,7 @@ public class QuestionSpecialController {
     public PagedResources<Resource<Question>> setImage(	@PathVariable("id") Long id,
 	    						@RequestParam(required = false) MultipartFile image) throws IOException {
 	Question question = questionRepository.findOne(id);
-	String dataUrl = CategoryInitializer.getImageFor(question.getCategoriesOfQuestion().get(0).getJsonName());
+	String dataUrl = new CategoryImageProvider().getImageFor(question.getCategoriesOfQuestion().get(0).getJsonName());
 	if ( image != null ) {
 	    dataUrl = "data:" + image.getContentType() + ";base64," + Base64Utils.encodeToString(image.getBytes());
 	}

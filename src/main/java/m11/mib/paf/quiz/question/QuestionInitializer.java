@@ -6,6 +6,7 @@ import java.util.List;
 import m11.mib.paf.quiz.answer.Answer;
 import m11.mib.paf.quiz.answer.AnswerRepository;
 import m11.mib.paf.quiz.category.Category;
+import m11.mib.paf.quiz.category.CategoryImageProvider;
 import m11.mib.paf.quiz.category.CategoryInitializer;
 import m11.mib.paf.quiz.category.CategoryRepository;
 import m11.mib.paf.quiz.user.User;
@@ -45,7 +46,7 @@ public class QuestionInitializer {
      * @param answers
      */
     private void create(User questioner, String categoryName, String text, Answer... answers) {
-	String         categoryImage = CategoryInitializer.getImageFor(categoryName);
+	String         categoryImage = new CategoryImageProvider().getImageFor(categoryName);
 	Category       category      = categoryRepository.findOne(categoryName);
 	List<Category> categoryList  = new ArrayList<Category>();
 	categoryList.add(category);

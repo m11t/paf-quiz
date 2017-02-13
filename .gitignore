@@ -21,3 +21,5 @@ hs_err_pid*
 /.springBeans
 /.factorypath
 /src/main/resources/static/
+/Setup.docx
+/Setup.pdf
