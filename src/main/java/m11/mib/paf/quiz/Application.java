@@ -23,6 +23,7 @@ import m11.mib.paf.quiz.question.QuestionInitializer;
 import m11.mib.paf.quiz.question.QuestionRepository;
 import m11.mib.paf.quiz.result.ResultInitializer;
 import m11.mib.paf.quiz.result.ResultRepository;
+import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserInitializer;
 import m11.mib.paf.quiz.user.UserRepository;
 
@@ -71,6 +72,13 @@ public class Application {
 	    	UserRepository userRepository
 	   ) {
 	return (args) -> {
+	    // ~~~ Only insert the startup data, when it doesn't exist
+	    User moderator = userRepository.findOne("Moderator");
+	    if ( moderator != null ) {
+		log.info("Database already filled with startup data.");
+		return;
+	    }
+	    
 	    // ~~~ Generate users for the quiz
 	    UserInitializer userInitializer = new UserInitializer(userRepository);
 	    userInitializer.initialize();
