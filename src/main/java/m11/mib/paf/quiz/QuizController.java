@@ -16,6 +16,7 @@ import m11.mib.paf.quiz.question.QuestionResource;
 
 /**
  * QuizController
+ * Provides REST-Endpoints for the quiz functionality
  *
  * @author M11
  * @version 1.0

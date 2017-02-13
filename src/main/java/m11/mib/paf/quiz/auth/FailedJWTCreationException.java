@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * MT \ 28.01.2017 \ FailedJWTCreationException
- * 
+ * FailedJWTCreationException
+ * Exception for failed JSON-Web-Token creation
  *
  * @author M11
  * @version 1.0

@@ -3,8 +3,8 @@ package m11.mib.paf.quiz.auth;
 import org.springframework.security.core.AuthenticationException;
 
 /**
- * MT \ 09.02.2017 \ FailedJWTAuthenticationException
- * 
+ * FailedJWTAuthenticationException
+ * Exception for failed authentication
  *
  * @author M11
  * @version 1.0

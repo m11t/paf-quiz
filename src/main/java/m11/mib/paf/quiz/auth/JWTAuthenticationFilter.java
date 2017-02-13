@@ -20,8 +20,8 @@ import com.auth0.jwt.JWT;
 import m11.mib.paf.quiz.WebSecurityConfig;
 
 /**
- * MT \ 09.02.2017 \ AuthenticationFilter
- * 
+ * AuthenticationFilter
+ * Ensures authentication for the REST-API
  *
  * @author M11
  * @version 1.0
@@ -29,13 +29,21 @@ import m11.mib.paf.quiz.WebSecurityConfig;
 public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private final AuthenticationFailureHandler failureHandler;
     
+    /**
+     * @param failureHandler
+     * @param requestMatcher
+     */
     public JWTAuthenticationFilter(AuthenticationFailureHandler failureHandler, RequestMatcher requestMatcher) {
 	super(requestMatcher);
 	this.failureHandler = failureHandler;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Decode the JSON-Web-Token and pass it to the AuthenticationManager
      * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#attemptAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * @param request from the frontend
+     * @param response to the frontend
      */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -54,6 +62,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	return getAuthenticationManager().authenticate(new JWTAuthenticationToken(JWT.decode(token)));
     }
 
+    /**
+     * Handle a successful authentication
+     * 
+     * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#successfulAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain, org.springframework.security.core.Authentication)
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) 
 	    throws IOException, ServletException {
@@ -63,6 +76,11 @@ public class JWTAuthenticationFilter extends AbstractAuthenticationProcessingFil
         chain.doFilter(request, response);
     }
 
+    /**
+     * Handle an unsuccessful authentication
+     * 
+     * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#unsuccessfulAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+     */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) 
 	    throws IOException, ServletException {

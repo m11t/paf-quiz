@@ -10,8 +10,8 @@ import javax.persistence.ManyToOne;
 import m11.mib.paf.quiz.question.Question;
 
 /**
- * MT \ 12.01.2017 \ Answer
- * 
+ * Answer
+ * Basic JPA-Entity for an Answer to a Quiz question
  *
  * @author M11
  * @version 1.0

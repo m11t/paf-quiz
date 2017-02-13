@@ -23,8 +23,8 @@ import m11.mib.paf.quiz.user.User;
 import javax.persistence.JoinColumn;
 
 /**
- * MT \ 12.01.2017 \ Question
- * 
+ * Question
+ * Basic JPA-Entity for a Quiz question
  *
  * @author M11
  * @version 1.0

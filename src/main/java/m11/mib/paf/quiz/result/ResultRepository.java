@@ -2,15 +2,14 @@ package m11.mib.paf.quiz.result;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import m11.mib.paf.quiz.category.Category;
 import m11.mib.paf.quiz.user.User;
 
 /**
  * ResultRepository
- * With an additional aggregate function by Categories and by User for statistics
+ * Provides Crud-Methods for Category-Resources plus:
+ *   - additional aggregate functions for statistics by Categories, User, correct
  *
  * @author M11
  * @version 1.0

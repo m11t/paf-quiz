@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import m11.mib.paf.quiz.RestErrorResponse;
 
 /**
- * MT \ 09.02.2017 \ EntryPoint
+ * EntryPoint
  * REST-Entrypoint for Authentication exceptions
  *
  * @author M11
@@ -26,8 +26,13 @@ import m11.mib.paf.quiz.RestErrorResponse;
 @Component
 public class JWTEntryPoint implements AuthenticationEntryPoint {
 
-    /* (non-Javadoc)
+    /**
+     * Writes the RestErrorResponse to the response body
      * @see org.springframework.security.web.AuthenticationEntryPoint#commence(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
+     * 
+     * @param request
+     * @param response
+     * @param excpetion to be passed to the frontend
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {

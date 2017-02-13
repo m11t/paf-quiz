@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * MT \ 28.01.2017 \ NoSuchUserCredentialsException
- * 
+ * NoSuchUserCredentialsException
+ * Exception when a user could not be logged into the application
  *
  * @author M11
  * @version 1.0

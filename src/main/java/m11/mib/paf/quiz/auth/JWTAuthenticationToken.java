@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import com.auth0.jwt.JWT;
 
 /**
- * MT \ 09.02.2017 \ JWTAuthenticationToken
+ * JWTAuthenticationToken
  * Simple Authentication implementation for JWT verfication purposes.
  *
  * @author M11

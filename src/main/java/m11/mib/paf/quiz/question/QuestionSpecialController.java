@@ -21,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import m11.mib.paf.quiz.category.CategoryInitializer;
 
 /**
- * MT \ 10.02.2017 \ QuestionSpecialController
- * 
+ * QuestionSpecialController
+ * Provides a REST-Endpoint for uploading an image
  *
  * @author M11
  * @version 1.0

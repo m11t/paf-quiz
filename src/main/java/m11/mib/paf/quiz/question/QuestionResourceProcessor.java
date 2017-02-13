@@ -8,7 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
 
 /**
- * MT \ 10.02.2017 \ QuestionResourceProcessor
+ * QuestionResourceProcessor
  * Expand the Question-Resource by the link to the image-endpoint
  *
  * @author M11
@@ -17,7 +17,8 @@ import org.springframework.web.util.UriComponents;
 @Component
 public class QuestionResourceProcessor implements ResourceProcessor<Resource<Question>> {
 
-    /* (non-Javadoc)
+    /**
+     * Add the self link to a QuestionResource (for QuizController)
      * @see org.springframework.hateoas.ResourceProcessor#process(org.springframework.hateoas.ResourceSupport)
      */
     @Override

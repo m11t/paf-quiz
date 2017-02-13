@@ -11,8 +11,8 @@ import m11.mib.paf.quiz.user.User;
 import m11.mib.paf.quiz.user.UserRepository;
 
 /**
- * MT \ 22.01.2017 \ AuthenticationController
- * 
+ * AuthenticationController
+ * Provides REST-Endpoints for authentication purposes
  *
  * @author M11
  * @version 1.0

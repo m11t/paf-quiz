@@ -17,8 +17,10 @@ import m11.mib.paf.quiz.auth.JWTAuthenticationFilter;
 import m11.mib.paf.quiz.auth.JWTAuthenticationProvider;
 
 /**
- * MT \ 09.02.2017 \ WebSecurityConfig
- * 
+ * WebSecurityConfig
+ * Enhances the automatic configuration of Spring by:
+ *   - providing an Authentication Filter
+ *   - configuring spring-security
  *
  * @author M11
  * @version 1.0
@@ -37,6 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired private AuthenticationFailureHandler authenticationFailureHandler;
     
     /**
+     * Configure and return a custom AuthenticationFilter
+     * 
      * @return the authentication filer for /api/** without /api/auth/login
      * @throws Exception 
      */
@@ -51,6 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	return filter;
     }
 
+    /**
+     * Configure Spring-Security
+     * 
+     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 	http.csrf().disable(); // ~~~ Cross-Site-Request-Forgery unnecessary
@@ -71,6 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticationEntryPoint(jwtAuthenticationEntryPoint);
     }
     
+    /**
+     * Set a custom AuthenticationProvider
+     * 
+     * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder)
+     * @throws Exception
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth)  throws Exception {
         auth.authenticationProvider(jwtAuthenticationProvider);

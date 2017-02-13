@@ -28,8 +28,10 @@ import m11.mib.paf.quiz.user.UserInitializer;
 import m11.mib.paf.quiz.user.UserRepository;
 
 /**
- * MT \ 12.01.2017 \ Application
- * 
+ * Application Class
+ * Additionally to the Spring startup procedure this class does the following:
+ *  - Reroutes all 404 requests to the index.html so that it can be navigated by the Angular2-Router
+ *  - Initializes the database with sample values on first startup
  *
  * @author M11
  * @version 1.0
@@ -62,6 +64,17 @@ public class Application {
         };
     }    
     
+    /**
+     * Build a CommandLineRunner for database initialization
+     * 
+     * @param config for the REST repositories (via DI)
+     * @param answerRepository (via DI)
+     * @param categoryRepository (via DI)
+     * @param questionRepository (via DI)
+     * @param resultRepository (via DI)
+     * @param userRepository (via DI)
+     * @return a command line function for database initialization
+     */
     @Bean
     public CommandLineRunner demo(
 	    	RepositoryRestConfiguration config,

@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * MT \ 28.01.2017 \ UserAlreadyExistsException
- * 
+ * UserAlreadyExistsException
+ * Exception for when somebody tries to signup with an existing user id
  *
  * @author M11
  * @version 1.0

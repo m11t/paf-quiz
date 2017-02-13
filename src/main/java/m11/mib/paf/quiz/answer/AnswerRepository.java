@@ -3,8 +3,8 @@ package m11.mib.paf.quiz.answer;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * MT \ 12.01.2017 \ AnswerRepository
- * 
+ * AnswerRepository
+ * Provides Crud-Methods for Answer-Resources
  *
  * @author M11
  * @version 1.0

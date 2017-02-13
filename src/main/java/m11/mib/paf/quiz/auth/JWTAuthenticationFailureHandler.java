@@ -18,8 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import m11.mib.paf.quiz.RestErrorResponse;
 
 /**
- * MT \ 10.02.2017 \ JWTAuthenticationFailureHandler
- * 
+ * JWTAuthenticationFailureHandler
+ * Exception-Handler for authentication exceptions
  *
  * @author M11
  * @version 1.0
@@ -36,7 +36,9 @@ public class JWTAuthenticationFailureHandler implements AuthenticationFailureHan
         this.mapper = mapper;
     }	
     
-    /* (non-Javadoc)
+    /**
+     * Handle an authentication failure
+     * 
      * @see org.springframework.security.web.authentication.AuthenticationFailureHandler#onAuthenticationFailure(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.springframework.security.core.AuthenticationException)
      */
     @Override

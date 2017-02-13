@@ -13,8 +13,8 @@ import m11.mib.paf.quiz.question.Question;
 import m11.mib.paf.quiz.result.Result;
 
 /**
- * MT \ 12.01.2017 \ Category
- * 
+ * Category
+ * Basic JPA-Entity for categorizing a Quiz question
  *
  * @author M11
  * @version 1.0

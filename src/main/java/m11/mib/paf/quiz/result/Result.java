@@ -15,8 +15,8 @@ import m11.mib.paf.quiz.category.Category;
 import m11.mib.paf.quiz.user.User;
 
 /**
- * MT \ 12.01.2017 \ Result
- * 
+ * Result
+ * Basic JPA-Entity for a Quiz question
  *
  * @author M11
  * @version 1.0
@@ -43,6 +43,12 @@ public class Result {
     
     public Result() {}
     
+    /**
+     * Create a Result with the following member values:
+     * @param user
+     * @param categories
+     * @param isCorrect
+     */
     public Result(User user, List<Category> categories, boolean isCorrect) {
 	this.setUserOfResult(user);
 	this.setCategoriesOfResult(categories);

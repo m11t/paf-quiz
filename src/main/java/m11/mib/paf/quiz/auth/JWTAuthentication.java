@@ -10,8 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import m11.mib.paf.quiz.user.User;
 
 /**
- * MT \ 09.02.2017 \ AuthenticatedUser
- * Simple 
+ * JWTAuthentication
+ * Simple Authentication Object for a successfully authenticated User
  *
  * @author M11
  * @version 1.0

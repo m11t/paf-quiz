@@ -3,8 +3,8 @@ package m11.mib.paf.quiz.category;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * MT \ 12.01.2017 \ CategoryRepository
- * 
+ * CategoryRepository
+ * Provides Crud-Methods for Category-Resources
  *
  * @author M11
  * @version 1.0

@@ -4,7 +4,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * QuestionRepository
- * 
+ * Provides Crud-Methods for Category-Resources plus:
+ *   - the possibility to find the question with the highest id (for QuizController)
  *
  * @author M11
  * @version 1.0

@@ -37,6 +37,13 @@ public class QuestionInitializer {
 	this.userRepository = userRepository;
     }
     
+    /**
+     * Convenience method for saving a questin with its answers
+     * @param questioner
+     * @param categoryName
+     * @param text of the question
+     * @param answers
+     */
     private void create(User questioner, String categoryName, String text, Answer... answers) {
 	String         categoryImage = CategoryInitializer.getImageFor(categoryName);
 	Category       category      = categoryRepository.findOne(categoryName);
